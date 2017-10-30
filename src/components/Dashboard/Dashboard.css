@@ -1,0 +1,13 @@
+.dashboard {
+  display: flex;
+  flex-direction: row;
+  /* padding: 10px; */
+}
+
+.dashboard > svg, .dashboard > span {
+  /* margin: 10px; */
+}
+
+.dashboard > span {
+  font-size: 80%;
+}

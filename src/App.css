@@ -1,0 +1,55 @@
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 80px;
+}
+
+.App-header {
+  background-color: white;
+  padding: 0;
+  color: #777;
+}
+
+.App-header ul {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding: 3px;
+  margin: 0;
+}
+
+.App-header li {
+  display: block;
+  padding: 0.5em 1em;
+}
+
+.App-header a {
+  color: #777;
+  text-decoration: none;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+section {
+  /* outline: 0.5px dashed red; */
+}
+
+section.views {
+  margin: 0 60px;
+  font-size: large;
+  /* outline: 0.5px solid green; */
+  color: #777;
+}
+section.views > h2 {
+  /* margin-bottom: 0px; */
+}
+section.views svg,
+section.views div {
+  /* outline: 1px solid red; */
+}

@@ -1,0 +1,7 @@
+.newentry {
+  box-sizing: border-box;
+  border: 1px solid #cbcbcb;
+  padding: 0.5rem 0.5rem;
+  width: 100%;
+}
+

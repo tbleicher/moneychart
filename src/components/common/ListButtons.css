@@ -1,0 +1,9 @@
+.listbuttons {
+  box-sizing: border-box;
+  float: right;
+  border: 1px solid blue;
+  margin: 0.5rem 0;
+  /* width: 100%; */
+  padding: 0 0.5rem;
+  line-height: 2rem;
+}

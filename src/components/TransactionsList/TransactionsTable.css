@@ -1,0 +1,56 @@
+.pure-table {
+  border-collapse: collapse;
+  display: table;
+  border-spacing: 0;
+  empty-cells: show;
+  border: 1px solid #cbcbcb;
+}
+.pure-table td,
+.pure-table th {
+  padding: 0.5em;
+  border: 1px solid #cbcbcb;
+}
+.pure-table th {
+  font-weight: 600;
+}
+.pure-table th {
+  border-right: 1px solid white;
+}
+.pure-table th:last-child {
+  border-right: 1px solid #cbcbcb;
+}
+.tablewrapper {
+  margin-right: 30px;
+}
+#transactionstable {
+  width: 100%;
+}
+#transactionstable thead {
+  background-color: #cbcbcb;
+}
+#transactionstable tr:nth-child(even) {
+  background-color: #eee;
+}
+#transactionstable td:nth-child(1),
+#date {
+  width: 100px;
+}
+#transactionstable td:nth-child(2) {
+  max-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+#transactionstable td:nth-child(3),
+#credit {
+  width: 70px;
+  text-align: right;
+}
+#transactionstable td:nth-child(4),
+#debit {
+  width: 70px;
+  text-align: right;
+}
+#transactionstable td:nth-child(5) {
+  width: 160px;
+}

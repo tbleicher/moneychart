@@ -1,0 +1,30 @@
+.barchart {
+  /* margin: 0 20px 0 0; */
+  font-size: 12px;
+  color: #777;
+}
+
+svg {
+	/* outline: 1px solid green; */
+}
+
+svg > text {
+  fill: #777;
+  font-weight: 500;
+}
+
+.area {
+  fill: #00f;
+  opacity: 0.5;
+  stroke: #000;
+}
+
+.context {
+  outline: 1px solid green;
+}
+
+.mainchart {
+  stroke: red;
+  stroke-width: 1px;
+  fill: none;
+}

@@ -1,0 +1,12 @@
+.transactionslist {
+  list-style-type: none;
+  max-height: 500px;
+  overflow: auto;
+  padding: 0;
+  margin-left: 20px;
+  margin-right: 30px;
+}
+
+.transactionslist li:nth-child(even) {
+  background-color: #ddd;
+}

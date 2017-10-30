@@ -1,0 +1,72 @@
+.ttag {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  display: inline;
+  padding: 0.2em 0.6em 0.3em;
+  margin-left: 0.4em;
+  font-size: 80%;
+  font-weight: 700;
+  line-height: 1;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  border-radius: 0.5em;
+  background-color: #777;
+}
+
+.ttag.level0 {
+  margin-left: 0.4em;
+}
+
+.ttag.level1 {
+  margin-left: 1.2em;
+}
+
+.ttag.level2 {
+  margin-left: 2em;
+}
+
+.ttag.danger {
+  background-color: #c44;
+}
+
+#configform {
+  margin-bottom: 40px;
+}
+
+#configform > div {
+  border: 1px solid #cbcbcb;
+}
+
+#configform > div:nth-child(2) {
+  padding: 10px;
+}
+
+.button-group {
+  /* padding-top: 20px; */
+  padding-left: 120px;
+}
+
+.button-group button {
+  margin-right: 10px;
+}
+
+.form-group {
+  height: 30px;
+}
+
+.form-group label {
+  width: 110px;
+  display: inline-block;
+  font-weight: 600;
+  vertical-align: top;
+}
+
+.form-group div {
+  display: inline-block;
+}
+
+.form-group span {
+  width: 30px;
+  /* background-color: #4c4; */
+}

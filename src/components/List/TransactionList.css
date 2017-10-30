@@ -1,0 +1,8 @@
+.transactionlist {
+  border: 1px solid blue;
+  margin: 1rem 0;
+  padding: 0.5rem;
+}
+.transactionlist li:nth-child(even) {
+  background-color: #ddd;
+}

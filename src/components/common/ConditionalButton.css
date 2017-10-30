@@ -1,0 +1,10 @@
+.cbutton {
+  display: inline-block;
+  box-sizing: border-box;
+  border-radius: 0.2rem;
+  font-weight: 700;
+  margin: 0.02rem;
+  padding: 0 0.2rem;
+  line-height: 2rem;
+  background-color: lightblue;
+}

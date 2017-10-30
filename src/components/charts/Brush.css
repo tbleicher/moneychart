@@ -1,0 +1,14 @@
+
+.background {
+  stroke: #777;
+  opacity: .5;
+  fill: #777;
+  fill-opacity: .2;
+  shape-rendering: crispEdges;
+}
+
+.handle {
+  fill: #777;
+  fill-opacity: 0.6;
+  shape-rendering: crispEdges;
+}

@@ -1,0 +1,15 @@
+#wordlist {
+  margin-top: 20px;
+}
+.highlight {
+  color: #c00;
+}
+.light {
+  color: #999;
+}
+
+.wordlist {
+  list-style-type: none;
+  margin: 10px;
+  padding: 0;
+}

@@ -1,0 +1,33 @@
+.transaction {
+  /* border: 1px solid red; */
+  padding: 0.4rem 0rem;
+  width: 100%;
+}
+.transaction span {
+  padding: 0 5px; 
+  display: inline-block;
+  height: 16px;
+}
+.transaction #date {
+  width: 95px;
+}
+.transaction #description {
+  min-width: 200px;
+  overflow-x: hidden;
+  width: 400px;
+}
+.transaction div {
+  display: inline-block;
+  width: 380px;
+}
+.transaction div span {
+  width: 80px
+}
+.transaction div .ttag {
+  padding-top: 0.3rem;
+  position: relative; 
+  top: -0.15rem; 
+}
+.selected {
+  background-color: #fdd
+}

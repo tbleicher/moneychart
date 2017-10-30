@@ -1,0 +1,66 @@
+import React from 'react';
+
+const Chart = require('react-d3-core').Chart;
+const BarStackChart = require('react-d3-basic').BarStackChart;
+
+import styles from './Dashboard.css';
+
+export default class Dashboard extends React.Component {
+
+
+  render() {
+    const data = [
+      {
+		  "date": 1,
+		  "Group1": "20",
+		  "Group2": "12",
+		  "Group3": "46"
+		}, {
+		  "date": 2,
+		  "Group1": "32",
+		  "Group2": "5",
+		  "Group3": "24"
+		}, {
+		  "date": 4,
+		  "Group1": "32",
+		  "Group2": "20",
+		  "Group3": "24"
+		}];
+  const chartSeries = [
+    {field: 'Group1', name:'Group A'},
+    {field: 'Group2', name:'Group B'},
+    {field: 'Group3', name:'Group C'}
+    ];
+  const width=500;
+  const height=300;
+  const margins = {top: 50, right: 50, bottom: 50, left: 50};
+
+  const showLegend = false;
+  const showXGrid = false;
+
+  const x = function(d) {return d.date};
+  const y = function(d) {return +d};
+ 
+    return (
+      <div className={styles.dashboard}>
+          <BarStackChart 
+            title='BarStackChart' 
+            chartSeries={chartSeries}
+            data={data}
+            width={width} 
+            height={height}
+            id='appchart'
+
+            margins={margins}
+            showLegend={showLegend}
+            showXGrid={showXGrid}
+            
+            xDomain={[1,2,3,4,5,6]}
+            xScale='ordinal'
+            x = {x}
+            y = {y}
+          />
+      </div>
+    )
+  }
+}
