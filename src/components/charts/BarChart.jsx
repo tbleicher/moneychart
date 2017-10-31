@@ -8,7 +8,7 @@ import {
 } from 'd3-scale';
 import { timeFormat } from 'd3-time-format';
 import { nest } from 'd3-collection';
-import { extent, format, max } from 'd3';
+import { extent, format } from 'd3';
 
 import Axis from './Axis';
 import Brush from './Brush';

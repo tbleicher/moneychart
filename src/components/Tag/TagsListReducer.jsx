@@ -6,6 +6,7 @@ import {
   REMOVE_TAG,
   UPDATE_TAG,
   SELECT_TAG,
+  SET_TAGS
 } from './TagTypes';
 
 
@@ -36,6 +37,9 @@ const TagsListReducer = (state=[], action) => {
           return tag;
         }
       });
+
+    case SET_TAGS:
+      return action.payload.slice();
     
     case UPDATE_TAG:
       return state.map((tag) => {

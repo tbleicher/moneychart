@@ -4,8 +4,8 @@ import {
   REMOVE_TRANSACTION,
   UPDATE_TRANSACTION,
   SELECT_TRANSACTION,
+  SET_TRANSACTIONS
 } from './TransactionsListTypes';
-import ADD_ACCOUNT from '../Accounts';
 
 import { parseCSVLine } from '../../utils/TransactionParser';
 import { mergeTransactionLists } from './TransactionsListUtils';
@@ -28,9 +28,8 @@ const transactionsList = (state=[], action) => {
     case REMOVE_TRANSACTION:
       return state.filter(t => t.id !== action.payload);
     
-    case ADD_ACCOUNT:
-      console.log('ADD_ACCOUNT in TransactionsListReducer');
-      return state;
+    case SET_TRANSACTIONS:
+      return action.payload.slice();
 
     case SELECT_TRANSACTION:
       return state.map((t) => {

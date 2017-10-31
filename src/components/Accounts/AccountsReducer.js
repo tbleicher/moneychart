@@ -1,11 +1,10 @@
-import shortid from 'shortid';
+//import shortid from 'shortid';
 
 import { ADD_ACCOUNT, SELECT_ACCOUNT } from './AccountActionTypes';
 
 const AccountsListReducer = (state = [], action) => {
   switch (action.type) {
     case ADD_ACCOUNT:
-    console.log('ADD_ACCOUNT in AccountsReducer');
       return state
         .map(account => Object.assign({}, account, { selected: false }))
         .concat([Object.assign({}, action.payload, { seelcted: true })]);
