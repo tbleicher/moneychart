@@ -26,7 +26,15 @@
 
 .accountsview span {
   /* font-size: 110%; */
+  display: inline-block;
   font-weight: bold;
+  min-width: 5.8em;
+}
+
+.accountsview span:nth-child(2) {
+  font-weight: normal;
+  white-space: nowrap;
+  margin-left: 0.5em;
 }
 
 

@@ -20,15 +20,20 @@ class Account extends React.Component {
         <div className="columntitle">{this.props.name}</div>
         <div className="columnbody">
           <p>
-            <span>Account Number:</span> {this.props.number}
+            <span>Account Number: </span>
+            <span>{this.props.number}</span>
           </p>
           <p>
-            <span>from:</span> {formatDate(this.props.fromDate)}
-            &nbsp;&nbsp;
-            <span>to:</span> {formatDate(this.props.toDate)}
+            <span>from: </span> 
+            <span>{formatDate(this.props.fromDate)}</span>
           </p>
           <p>
-            <span>last update:</span> {formatDate(this.props.updatedDate)}
+            <span>to: </span>
+            <span>{formatDate(this.props.toDate)}</span>
+          </p>
+          <p>
+            <span>last update: </span>
+            <span>{formatDate(this.props.updatedDate)}</span>
           </p>
           {button}
         </div>
