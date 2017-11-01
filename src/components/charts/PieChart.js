@@ -19,7 +19,6 @@ function transactions_summary(allTransactions) {
         : 'other';
     })
   );
-  console.log(tags)
 
   let data = Array.from(tags).map(function(tag) {
     let tagged = transactions.filter(function(t, idx, arr) {
@@ -39,7 +38,7 @@ function transactions_summary(allTransactions) {
       total: total
     };
   });
-  console.log(data);
+
   return data;
 }
 

@@ -2,6 +2,7 @@ import {
   ADD_ACCOUNT,
   SELECT_ACCOUNT
 } from './AccountActionTypes';
+import { push } from 'react-router-redux';
 import { Types as TAG } from '../Tag';
 import { Types as TRANSACTIONS } from '../TransactionsList';
 
@@ -20,6 +21,7 @@ export function addAccount(account) {
       type: TAG.SET_TAGS,
       payload: account.tags
     });
+    dispatch(push('/dashboard'));
   };
 }
 

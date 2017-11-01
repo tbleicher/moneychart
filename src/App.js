@@ -11,16 +11,17 @@ import { UploadView } from './components/Upload';
 import { TagConfigView } from './components/Tag';
 
 import {
-  BrowserRouter as Router,
   Route,
   Link
 } from 'react-router-dom'
+
+import { ConnectedRouter } from 'react-router-redux';
 
 
 class App extends Component {
   render() {
     return (
-      <Router>
+      <ConnectedRouter history={this.props.history}>
         <div className="App">
           <div className="App-header">
             <ul>
@@ -39,7 +40,7 @@ class App extends Component {
             <Route path="/Tags" component={TagConfigView}/>
           </div>
         </div>
-      </Router>
+      </ConnectedRouter>
     );
   }
 }
