@@ -50,7 +50,7 @@ function getGroceryTransaction(m, base = 150, variation = 100) {
   return [
     m, `Green Grocer Super Markets Cashier ${Math.floor(
       26 * Math.random()
-    )} ${m.format('HH:mm')}`,
+    )} ${m.format('DD-MM-YY HH:mm')}`,
     getFlexAmount(base, variation), 0, 0];
 }
 
