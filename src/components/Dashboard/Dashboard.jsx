@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 
+import Section from '../Section'; 
 import { BarChart, PieChart } from '../charts';
 
 import './Dashboard.css';
@@ -56,8 +57,7 @@ class Dashboard extends React.Component {
       const barWidth = this.state.width - pieWidth - 60;
 
       return (
-        <section className="views">
-          <h2>{this.state.title}</h2>
+        <Section title="Overview">
           <div className="dashboard">
             <BarChart
               title="Bar Chart"
@@ -66,7 +66,6 @@ class Dashboard extends React.Component {
               width={barWidth}
               height={height}
             />
-
             <PieChart
               title="Expenses Breakdown"
               data={this.props.transactions}
@@ -74,7 +73,7 @@ class Dashboard extends React.Component {
               width={pieWidth}
             />
           </div>
-        </section>
+        </Section>
       );
     }
   }

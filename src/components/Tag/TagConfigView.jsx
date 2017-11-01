@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import Section from '../Section';
 import TagConfigForm from './TagConfigForm';
 import TagsList from './TagsList';
 import { selectTag } from './TagsListActions';
@@ -25,13 +26,12 @@ class TagConfigView extends React.Component {
 
   render() {
     return ( 
-      <section className="views">
-        <h2>Tag Config</h2>
+      <Section title="Tag Config">
         <div className="tagconfigview">
           <TagConfigForm tag={this.state.selected} />
           <TagsList tags={this.props.tags} onClick={this.props.onClick} />
         </div>
-      </section>
+      </Section>
     );
   }
 }

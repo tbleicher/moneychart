@@ -1,5 +1,6 @@
 import React from 'react';
 
+import Section from '../Section';
 import TransactionsTable from './TransactionsTableConnected';
 import { ConnectedTagsList } from '../Tag';
 
@@ -9,14 +10,12 @@ class TransactionsListView extends React.Component {
 
   render() {
     return (
-      <section className="views">
-        {/* <ListButtons /> */}
-        <h2>Transaction List</h2>
+      <Section title="Transactions">
         <div className="transactionslistview">
           <TransactionsTable />
           <ConnectedTagsList title='Category Filter' />
         </div>
-      </section>
+      </Section>
     );
   }
 }

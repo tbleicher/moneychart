@@ -1,5 +1,6 @@
 import React from 'react';
 
+import Section from '../Section';
 import Upload from './Upload';
 import './Upload.css';
 
@@ -7,12 +8,9 @@ class UploadView extends React.Component {
 
   render() {
     return (
-      <div>
-        <section className="views">
-          <h2>Upload Transactions</h2>
-          <Upload />
-        </section>
-      </div>
+      <Section title="Uploads">
+        <Upload />
+      </Section>
     );
   }
 }
