@@ -28,16 +28,16 @@ class App extends Component {
               <li><Link to="/">Accounts</Link></li>
               <li><Link to="/dashboard">Dashboard</Link></li>
               <li><Link to="/transactions">Transactions</Link></li>
-              <li><Link to="/Upload">Upload</Link></li>
-              <li><Link to="/Tags">Tags</Link></li>
+              <li><Link to="/upload">Upload</Link></li>
+              <li><Link to="/tags">Tags</Link></li>
             </ul>
           </div>
           <div className="App-body">
             <Route exact path="/" component={AccountsView}/>
             <Route path="/dashboard" component={Dashboard}/>
             <Route path="/transactions" component={TransactionsListView}/>
-            <Route path="/Upload" component={UploadView}/>
-            <Route path="/Tags" component={TagConfigView}/>
+            <Route path="/upload" component={UploadView}/>
+            <Route path="/tags" component={TagConfigView}/>
           </div>
         </div>
       </ConnectedRouter>
