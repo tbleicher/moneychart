@@ -32,16 +32,6 @@ class AccountsView extends React.Component {
 
         <div className="accountsview">
           {accounts}
-          <div className="account">
-            <div className="columntitle">New Account</div>
-            <div className="columnbody">
-              <p>Please provide a password.</p>
-              <p>
-                <input type="password" />
-              </p>
-              <button className="button button-warning">apply</button>
-            </div>
-          </div>
         </div>
       </section>
     );
