@@ -27,6 +27,12 @@ class TagConfigView extends React.Component {
   render() {
     return ( 
       <Section title="Tag Config">
+        <div className="help">
+          <p>You can create <i>category tags</i> that get
+          automatically applied via text patterns. Check out the
+          generated tags for examples.</p>
+          <p>Tags can be nested. The selected color will be used in the charts.</p>
+        </div>
         <div className="tagconfigview">
           <TagConfigForm tag={this.state.selected} />
           <TagsList tags={this.props.tags} onClick={this.props.onClick} />

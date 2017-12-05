@@ -29,10 +29,17 @@ class AccountsView extends React.Component {
       <section className="views">
         {/* <ListButtons /> */}
         <h2>Accounts</h2>
-
+        <div className="help">
+          <p>This page shows an overview of all accounts that
+          have been set up ... once saving of account 
+          data is enabled.</p>
+          <p>For now you can use the 'generate' button 
+          above to create random test data.</p>
+        </div>
         <div className="accountsview">
           {accounts}
         </div>
+
       </section>
     );
   }

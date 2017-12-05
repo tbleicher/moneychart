@@ -58,6 +58,12 @@ class Dashboard extends React.Component {
 
       return (
         <Section title="Overview">
+          <div className="help">
+            <p>All transactions charted over time. Use the brush
+              at the bottom to limit the time range and hover
+              over a transaction bar to see more details.
+            </p>
+          </div>     
           <div className="dashboard">
             <BarChart
               title="Bar Chart"
