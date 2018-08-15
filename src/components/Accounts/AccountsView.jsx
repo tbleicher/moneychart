@@ -1,11 +1,10 @@
-import React from 'react';
+import React from "react";
 
-import Account from './ConnectedAccount';
-import DemoAccount from './DemoAccount';
+import Account from "./ConnectedAccount";
+import DemoAccount from "./DemoAccount";
+import NewAccount from "./NewAccount";
 
-import './Account.css';
-
-
+import "./Account.css";
 
 class AccountsView extends React.Component {
   render() {
@@ -25,6 +24,7 @@ class AccountsView extends React.Component {
     ) : (
       <DemoAccount />
     );
+
     return (
       <section className="views">
         {/* <ListButtons /> */}
@@ -32,6 +32,7 @@ class AccountsView extends React.Component {
 
         <div className="accountsview">
           {accounts}
+          <NewAccount />
         </div>
       </section>
     );

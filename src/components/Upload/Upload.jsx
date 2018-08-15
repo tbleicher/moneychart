@@ -1,19 +1,19 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React from "react";
+import { connect } from "react-redux";
 
-import { TransactionsTable } from '../TransactionsList';
-import { ConnectedTagsList } from '../Tag';
-import { mergeTransactionLists } from '../TransactionsList/TransactionsListUtils';
-import { mergeTransactions } from '../TransactionsList/TransactionsListActions';
-import { parseCSVLine } from '../../utils/TransactionParser';
+import { TransactionsTable } from "../TransactionsList";
+import { ConnectedTagsList } from "../Tag";
+import { mergeTransactionLists } from "../TransactionsList/TransactionsListUtils";
+import { mergeTransactions } from "../TransactionsList/TransactionsListActions";
+import { parseCSVLine, parseHSBC } from "../../utils/TransactionParser";
 
-import './NewEntry.css';
-import '../css/button.css';
+import "./NewEntry.css";
+import "../css/button.css";
 
 function updateTransactions(transactions, payload) {
-  return transactions.map((t) => {
+  return transactions.map(t => {
     if (t.id === payload.id) {
-      return Object.assign({}, t, payload.values, { id: t.id });    
+      return Object.assign({}, t, payload.values, { id: t.id });
     } else {
       return t;
     }
@@ -24,44 +24,57 @@ const ENTER_KEY_CODE = 13;
 
 class Upload extends React.Component {
   constructor(props) {
+    console.log("new Upload");
     super(props);
 
     this.state = {
-      value: '',
+      value: "",
       transactions: []
     };
 
-    this.updateTransaction = this.updateTransaction.bind(this);
     this.onCancel = this.onCancel.bind(this);
     this.onChange = this.onChange.bind(this);
     this.onKeyDown = this.onKeyDown.bind(this);
     this.onSave = this.onSave.bind(this);
-    this.validate = this.validate.bind(this);
-  }
-  
-  updateTransaction(payload) {
-    const transactions = updateTransactions(this.state.transactions, payload)
-    this.setState( { transactions });
   }
 
-  validate() {
-    if (this.textInput.value) {
-      const raw = this.textInput.value
-        .split('\n')
-        .map(line => parseCSVLine(line))
-        .filter(t => t);
-      const transactions = mergeTransactionLists(raw, []);
+  updateTransaction = payload => {
+    const transactions = updateTransactions(this.state.transactions, payload);
+    this.setState({ transactions });
+  };
 
+  validate = () => {
+    const value = this.textInput.value;
+
+    if (!value) {
       this.setState({
-        value: '',
-        transactions
+        value: "",
+        transactions: []
       });
     }
-  }
+
+    let transactions = [];
+    if (this.textInput.value.startsWith("Date")) {
+      const raw = parseHSBC(value);
+      transactions = mergeTransactionLists(raw, []);
+    } else {
+      const raw = this.textInput.value
+        .split("\n")
+        .map(line => parseCSVLine(line))
+        .filter(t => t);
+      transactions = mergeTransactionLists(raw, []);
+    }
+
+    console.log("new transactions", transactions.length);
+    this.setState({
+      value: "",
+      transactions
+    });
+  };
 
   onCancel(event) {
     this.setState({
-      value: '',
+      value: "",
       transactions: []
     });
   }
@@ -81,12 +94,14 @@ class Upload extends React.Component {
   onSave(event) {
     this.props.mergeTransactions(this.state.transactions);
     this.setState({
-      value: '',
+      value: "",
       transactions: []
     });
   }
 
   render() {
+    console.log("render transactions:", this.state.transactions.length);
+
     if (!this.state.transactions.length) {
       return (
         <div className="upload">
@@ -112,21 +127,15 @@ class Upload extends React.Component {
             <TransactionsTable
               tags={this.props.tags}
               transactions={this.state.transactions}
-              updateTransaction={this.updateTransaction}
+              cost={this.cost}
             />
             <ConnectedTagsList />
           </div>
           <div className="button-group">
-            <button
-              className="button-warning button"
-              onClick={this.onCancel}
-            >
+            <button className="button-warning button" onClick={this.onCancel}>
               Cancel
             </button>
-            <button
-              className="button-success button"
-              onClick={this.onSave}
-            >
+            <button className="button-success button" onClick={this.onSave}>
               Save
             </button>
           </div>
@@ -140,7 +149,7 @@ function mapStateToProps(state) {
   return {
     //transactions: state.transactions,
     tags: state.tags
-  }
+  };
 }
 
 function mapDispatchToProps(dispatch) {
@@ -149,4 +158,7 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Upload);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Upload);

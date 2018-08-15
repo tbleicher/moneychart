@@ -1,8 +1,8 @@
-import React from 'react';
-import moment from 'moment';
+import React from "react";
+import moment from "moment";
 
-import './Account.css';
-import '../css/button.css';
+import "./Account.css";
+import "../css/button.css";
 
 function formatDate(d) {
   return moment(d).format("MMM Do YYYY");
@@ -11,7 +11,9 @@ function formatDate(d) {
 class Account extends React.Component {
   render() {
     const button = this.props.selected ? (
-      <button className="button button-disabled">active</button>
+      <button disabled className="button button-disabled">
+        active
+      </button>
     ) : (
       <button className="button button-success">select</button>
     );
@@ -24,7 +26,7 @@ class Account extends React.Component {
             <span>{this.props.number}</span>
           </p>
           <p>
-            <span>from: </span> 
+            <span>from: </span>
             <span>{formatDate(this.props.fromDate)}</span>
           </p>
           <p>
@@ -43,8 +45,8 @@ class Account extends React.Component {
 }
 
 Account.defaultProps = {
-  name: 'Account Name',
-  number: 'no account time',
+  name: "Account Name",
+  number: "no account time",
   selected: false,
   fromDate: new Date(),
   toDate: new Date(),
