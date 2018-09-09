@@ -121,9 +121,12 @@ const linesToHSBCTransaction = lines => {
     return null;
   }
 
-  const date = parseHSBCDate(lines[0].split("\t")[0]);
-  const description = lines.slice(1, lines.length - 1).join(" ");
-  const values = lines[lines.length - 1].split("\t");
+  const _lines = lines.filter(line => line.trim());
+  console.log(lines);
+
+  const date = parseHSBCDate(_lines[0].split("\t")[0]);
+  const description = _lines.slice(1, _lines.length - 1).join(" ");
+  const values = _lines[_lines.length - 1].split("\t");
   const amount = parseFloat(values[0].replace("Amount", "").replace(",", ""));
   const balance = parseFloat(values[1].replace("Balance", "").replace(",", ""));
 

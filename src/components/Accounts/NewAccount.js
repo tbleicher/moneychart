@@ -26,6 +26,11 @@ class NewAccount extends React.Component {
     };
 
     this.props.addAccount(account);
+    this.setState({
+      name: "",
+      number: "",
+      password: ""
+    });
   };
 
   render() {
@@ -85,7 +90,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(NewAccount);
+export default connect(null, mapDispatchToProps)(NewAccount);

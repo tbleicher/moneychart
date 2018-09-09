@@ -7,23 +7,20 @@ import NewAccount from "./NewAccount";
 import "./Account.css";
 
 class AccountsView extends React.Component {
+  componentDidMount() {
+    this.props.loadAccounts();
+  }
+
   render() {
-    const accounts = this.props.accounts.length ? (
-      this.props.accounts.map(a => (
-        <Account
-          name={a.name}
-          key={a.number}
-          type={a.type}
-          number={a.number}
-          selected={a.selected}
-          fromDate={a.fromDate}
-          toDate={a.toDate}
-          updatedDate={a.updatedDate}
-        />
-      ))
-    ) : (
-      <DemoAccount />
-    );
+    const accounts = this.props.accounts.length
+      ? this.props.accounts.map(account => (
+          <Account
+            key={account.number}
+            {...account}
+            select={() => this.props.selectAccount(account.id)}
+          />
+        ))
+      : <DemoAccount />;
 
     return (
       <section className="views">

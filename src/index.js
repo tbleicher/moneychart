@@ -23,11 +23,10 @@ const store = createStore(
   testData,
   composeEnhancers(
     applyMiddleware(thunk, routerMW)
+
     //window.devToolsExtension ? window.devToolsExtension() : f => f
   )
 );
-
-//ReactDOM.render(<App />, document.getElementById('root'));
 
 ReactDOM.render(
   <Provider store={store}>

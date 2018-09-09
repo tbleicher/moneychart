@@ -1,27 +1,21 @@
-import React, { Component } from 'react';
-import './App.css';
+import React, { Component } from "react";
+import "./App.css";
 
-import HTML5Backend from 'react-dnd-html5-backend';
-import { DragDropContext } from 'react-dnd';
+import HTML5Backend from "react-dnd-html5-backend";
+import { DragDropContext } from "react-dnd";
 
-import AccountsView from './components/Accounts';
-import Dashboard from './components/Dashboard';
-import { TransactionsListView } from './components/TransactionsList';
-import { UploadView } from './components/Upload';
-import { TagConfigView } from './components/Tag';
+import AccountsView from "./components/Accounts";
+import Dashboard from "./components/Dashboard";
+import { TransactionsListView } from "./components/TransactionsList";
+import { UploadView } from "./components/Upload";
+import { TagConfigView } from "./components/Tag";
 
-import {
-  Route,
-  Link
-} from 'react-router-dom'
-
-import { ConnectedRouter } from 'react-router-redux';
-
+import { Router, Route, Link } from "react-router-dom";
 
 class App extends Component {
   render() {
     return (
-      <ConnectedRouter history={this.props.history}>
+      <Router history={this.props.history}>
         <div className="App">
           <div className="App-header">
             <ul>
@@ -33,14 +27,14 @@ class App extends Component {
             </ul>
           </div>
           <div className="App-body">
-            <Route exact path="/" component={AccountsView}/>
-            <Route path="/dashboard" component={Dashboard}/>
-            <Route path="/transactions" component={TransactionsListView}/>
-            <Route path="/upload" component={UploadView}/>
-            <Route path="/tags" component={TagConfigView}/>
+            <Route exact path="/" component={AccountsView} />
+            <Route path="/dashboard" component={Dashboard} />
+            <Route path="/transactions" component={TransactionsListView} />
+            <Route path="/upload" component={UploadView} />
+            <Route path="/tags" component={TagConfigView} />
           </div>
         </div>
-      </ConnectedRouter>
+      </Router>
     );
   }
 }

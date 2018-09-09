@@ -1,2 +1,3 @@
 export const ADD_ACCOUNT = "ADD_ACCOUNT";
+export const LOAD_ACCOUNTS = "LOAD_ACCOUNTS";
 export const SELECT_ACCOUNT = "SELECT_ACCOUNT";
