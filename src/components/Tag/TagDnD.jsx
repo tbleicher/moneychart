@@ -1,10 +1,10 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { DragSource } from 'react-dnd';
+import React from "react";
+import PropTypes from "prop-types";
+import { DragSource } from "react-dnd";
 
-import { TAGDND } from './TagTypes';
+import { TAGDND } from "./TagTypes";
 
-import './Tag.css';
+import "./Tag.css";
 
 const tagSource = {
   beginDrag(props) {
@@ -36,25 +36,26 @@ function collect(connect, monitor) {
 }
 
 function displayLabel(label) {
-  const parts = label.split('::');
-  const idx = parts.length-1;
+  const parts = label.split("::");
+  const idx = parts.length - 1;
   return [idx, parts[idx]];
 }
 
 class TagDnD extends React.Component {
-
   render() {
     const { connectDragSource, isDragging, data } = this.props;
-    const bgcolor = data.color || '#fff';
+    const bgcolor = data.color || "#fff";
     const opacity = isDragging ? 0.5 : 1;
-    const [level, label] = displayLabel(data.label || '');
+    const [level, label] = displayLabel(data.label || "");
     const className = `ttag level${level}`;
-    
+
     return connectDragSource(
-      <span className={className}
+      <span
+        className={className}
         key={data.id}
-        onClick={ label => this.props.onClick(data.id) }
-        style={{ backgroundColor: bgcolor, opacity }}>
+        onClick={label => this.props.onClick(data.id)}
+        style={{ backgroundColor: bgcolor, opacity }}
+      >
         {label}
       </span>
     );
@@ -62,13 +63,16 @@ class TagDnD extends React.Component {
 }
 
 TagDnD.propTypes = {
-  data: PropTypes.object,
+  data: PropTypes.shape({
+    color: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired,
+    label: PropTypes.string.isRequired
+  }).isRequired,
   onClick: PropTypes.func
 };
 
 TagDnD.defaultProps = {
-  data: {},
-  onClick: () => {},
+  onClick: () => {}
 };
 
 export default DragSource(TAGDND, tagSource, collect)(TagDnD);

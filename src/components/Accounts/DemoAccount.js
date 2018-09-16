@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { extent } from "d3";
 
-import { addAccount } from "./AccountActions";
+import { addAccount } from "../../reducers/Accounts";
 import { generateTransactions, tags } from "../../testData";
 
 import "./Account.css";

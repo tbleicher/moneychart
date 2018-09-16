@@ -11,24 +11,41 @@ function formatDate(d) {
 }
 
 const renderControls = props => {
-  const button = props.selected
-    ? <button disabled className="button button-disabled">
-        active
-      </button>
-    : <button className="button button-success" onClick={props.select}>
-        select
-      </button>;
+  const button = props.selected ? (
+    <button disabled className="button button-disabled">
+      active
+    </button>
+  ) : (
+    <button className="button button-success" onClick={props.selectAccount}>
+      select
+    </button>
+  );
 
   return (
     <div className="controls">
-      <button className="button-outline">delete</button>
+      <button className="button-outline" onClick={props.deleteAccount}>
+        delete
+      </button>
       <div style={{ flexGrow: 1 }} />
       {button}
     </div>
   );
 };
 
+const getDateRange = transactions => {
+  if (!transactions.length) {
+    return { fromDate: null, toDate: null };
+  }
+
+  const fromDate = transactions[0].date;
+  const toDate = transactions[transactions.length - 1].date;
+
+  return { fromDate, toDate };
+};
+
 const Account = props => {
+  const { fromDate, toDate } = getDateRange(props.transactions);
+
   return (
     <div className="account">
       <div className="columntitle">{props.name}</div>
@@ -39,11 +56,11 @@ const Account = props => {
         </p>
         <p>
           <span>from: </span>
-          <span>{formatDate(props.fromDate)}</span>
+          {fromDate && <span>{formatDate(fromDate)}</span>}
         </p>
         <p>
           <span>to: </span>
-          <span>{formatDate(props.toDate)}</span>
+          {toDate && <span>{formatDate(toDate)}</span>}
         </p>
         <p>
           <span>last update: </span>
@@ -59,9 +76,11 @@ Account.propTypes = {
   name: PropTypes.string.isRequired,
   number: PropTypes.string.isRequired,
   fromDate: PropTypes.object,
-  id: PropTypes.string.isRequired,
-  select: PropTypes.func.isRequired,
+  id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  selectAccount: PropTypes.func.isRequired,
+  deleteAccount: PropTypes.func.isRequired,
   selected: PropTypes.bool,
+  transactions: PropTypes.array.isRequired,
   toDate: PropTypes.object,
   updatedDate: PropTypes.object
 };

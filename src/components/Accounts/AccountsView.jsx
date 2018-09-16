@@ -12,15 +12,18 @@ class AccountsView extends React.Component {
   }
 
   render() {
-    const accounts = this.props.accounts.length
-      ? this.props.accounts.map(account => (
-          <Account
-            key={account.number}
-            {...account}
-            select={() => this.props.selectAccount(account.id)}
-          />
-        ))
-      : <DemoAccount />;
+    const accounts = this.props.accounts.length ? (
+      this.props.accounts.map(account => (
+        <Account
+          key={account.id}
+          {...account}
+          deleteAccount={() => this.props.deleteAccount(account.id)}
+          selectAccount={() => this.props.selectAccount(account.id)}
+        />
+      ))
+    ) : (
+      <DemoAccount />
+    );
 
     return (
       <section className="views">

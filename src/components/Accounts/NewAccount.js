@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import { addAccount } from "./AccountActions";
+import { addAccount } from "../../reducers/Accounts";
 
 import "./Account.css";
 import "../css/button.css";
@@ -90,4 +90,7 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(null, mapDispatchToProps)(NewAccount);
+export default connect(
+  null,
+  mapDispatchToProps
+)(NewAccount);

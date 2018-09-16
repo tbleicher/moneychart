@@ -1,6 +1,12 @@
 import { connect } from "react-redux";
 
-import { addAccount, loadAccounts, selectAccount } from "./AccountActions";
+import {
+  addAccount,
+  deleteAccount,
+  loadAccounts,
+  selectAccount
+} from "../../reducers/Accounts";
+
 import AccountsView from "./AccountsView";
 
 function mapStateToProps(state) {
@@ -12,9 +18,13 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     addAccount: account => dispatch(addAccount(account)),
+    deleteAccount: id => dispatch(deleteAccount(id)),
     loadAccounts: () => dispatch(loadAccounts()),
     selectAccount: id => dispatch(selectAccount(id))
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AccountsView);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AccountsView);
