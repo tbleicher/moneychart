@@ -1,13 +1,14 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React from "react";
+import { connect } from "react-redux";
 
-import Section from '../Section';
-import TagConfigForm from './TagConfigForm';
-import TagsList from './TagsList';
-import { selectTag } from './TagsListActions';
+import { selectTag } from "../../reducers/Tags";
 
-import './Tag.css';
-import './TagConfigView.css';
+import Section from "../Section";
+import TagConfigForm from "./TagConfigForm";
+import TagsList from "./TagsList";
+
+import "./Tag.css";
+import "./TagConfigView.css";
 
 class TagConfigView extends React.Component {
   constructor(props) {
@@ -18,14 +19,14 @@ class TagConfigView extends React.Component {
       selected
     };
   }
-  
+
   componentWillReceiveProps(nextProps) {
     const selected = nextProps.tags.filter(t => t.selected)[0] || {};
     this.setState({ selected });
   }
 
   render() {
-    return ( 
+    return (
       <Section title="Tag Config">
         <div className="tagconfigview">
           <TagConfigForm tag={this.state.selected} />
@@ -48,4 +49,7 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(TagConfigView);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TagConfigView);

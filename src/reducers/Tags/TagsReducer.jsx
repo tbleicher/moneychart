@@ -1,25 +1,20 @@
-import shortid from 'shortid';
+import shortid from "shortid";
 
-import { 
+import {
   ADD_TAG,
   MERGE_TAGS,
   REMOVE_TAG,
   UPDATE_TAG,
   SELECT_TAG,
   SET_TAGS
-} from './TagTypes';
+} from "./TagActionTypes";
 
-
-const TagsListReducer = (state=[], action) => {
-  
+const TagsListReducer = (state = [], action) => {
   switch (action.type) {
     case ADD_TAG:
-      
       return state
         .map(tag => Object.assign({}, tag, { selected: false }))
-        .concat([
-          Object.assign(action.payload, {id: shortid.generate()})
-        ]);
+        .concat([Object.assign(action.payload, { id: shortid.generate() })]);
 
     case MERGE_TAGS:
       return state.concat(action.payload);
@@ -28,7 +23,7 @@ const TagsListReducer = (state=[], action) => {
       return state.filter(tag => tag.label !== action.payload);
 
     case SELECT_TAG:
-      return state.map((tag) => {
+      return state.map(tag => {
         if (tag.id === action.payload) {
           return Object.assign({}, tag, { selected: true });
         } else if (tag.selected) {
@@ -40,9 +35,9 @@ const TagsListReducer = (state=[], action) => {
 
     case SET_TAGS:
       return action.payload.slice();
-    
+
     case UPDATE_TAG:
-      return state.map((tag) => {
+      return state.map(tag => {
         if (tag.id === action.payload.id) {
           return action.payload;
         } else {
@@ -53,6 +48,6 @@ const TagsListReducer = (state=[], action) => {
     default:
       return state;
   }
-}
+};
 
 export default TagsListReducer;

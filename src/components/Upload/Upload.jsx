@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 
 import { TransactionsTable } from "../TransactionsList";
-import { ConnectedTagsList } from "../Tag";
+import { TagsList } from "../Tag";
 import { mergeTransactionLists } from "../TransactionsList/TransactionsListUtils";
 import { mergeTransactions } from "../TransactionsList/TransactionsListActions";
 import { parseCSVLine, parseHSBC } from "../../utils/TransactionParser";
@@ -129,7 +129,7 @@ class Upload extends React.Component {
               transactions={this.state.transactions}
               cost={this.cost}
             />
-            <ConnectedTagsList />
+            <TagsList />
           </div>
           <div className="button-group">
             <button className="button-warning button" onClick={this.onCancel}>

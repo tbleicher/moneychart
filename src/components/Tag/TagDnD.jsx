@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { DragSource } from "react-dnd";
 
-import { TAGDND } from "./TagTypes";
+import { TAGDND } from "../../reducers/Tags";
 
 import "./Tag.css";
 

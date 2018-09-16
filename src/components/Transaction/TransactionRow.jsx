@@ -4,7 +4,7 @@ import { DropTarget } from "react-dnd";
 import { format } from "d3";
 
 import { StringTag } from "../Tag";
-import { Types } from "../Tag";
+import { TAGDND } from "../../reducers/Tags";
 import { mergeTags } from "../../utils/TransactionParser";
 
 //import './TransactionRow.css';
@@ -106,4 +106,4 @@ TransactionRow.propTypes = {
   onClick: PropTypes.func
 };
 
-export default DropTarget(Types.TAGDND, dropTarget, collect)(TransactionRow);
+export default DropTarget(TAGDND, dropTarget, collect)(TransactionRow);

@@ -1,14 +1,13 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { DropTarget } from 'react-dnd';
-import { format } from 'd3';
+import React from "react";
+import PropTypes from "prop-types";
+import { DropTarget } from "react-dnd";
+import { format } from "d3";
 
-import { StringTag } from '../Tag';
-import { Types } from '../Tag';
-import { mergeTags } from '../../utils/TransactionParser';
+import { StringTag } from "../Tag";
+import { TAGDND } from "../../reducers/Tags";
+import { mergeTags } from "../../utils/TransactionParser";
 
-import './Transaction.css';
-
+import "./Transaction.css";
 
 const dropTarget = {
   hover(props, monitor, component) {
@@ -20,12 +19,12 @@ const dropTarget = {
 
     if (!data.tags.includes(item.label)) {
       const tags = mergeTags(data.tags, item.label);
-      props.updateTransaction({ id: data.id, values: { tags }});
-      
+      props.updateTransaction({ id: data.id, values: { tags } });
+
       return { id: data.id, label: item.label };
-    } 
+    }
   }
-}
+};
 
 /**
  * Specifies which props to inject into your component.
@@ -36,7 +35,7 @@ function collect(connect, monitor) {
     // to let React DnD handle the drag events:
     connectDropTarget: connect.dropTarget(),
     // You can ask the monitor about the current drag state:
-    isOver: monitor.isOver(),
+    isOver: monitor.isOver()
     //isOverCurrent: monitor.isOver({ shallow: true }),
     //canDrop: monitor.canDrop(),
     //itemType: monitor.getItemType()
@@ -46,7 +45,6 @@ function collect(connect, monitor) {
 const formatCurrency = format("($.2f");
 
 class Transaction extends React.Component {
-
   constructor() {
     super();
     this.onClick = this.onClick.bind(this);
@@ -57,7 +55,7 @@ class Transaction extends React.Component {
   }
 
   formatDate(d) {
-    return `${d.getDate()}-${d.getMonth()+1}-${d.getFullYear()}`;
+    return `${d.getDate()}-${d.getMonth() + 1}-${d.getFullYear()}`;
   }
 
   render() {
@@ -68,21 +66,21 @@ class Transaction extends React.Component {
       id,
       selected,
       tags,
-      transactionDate,
+      transactionDate
     } = this.props.data;
 
     const { isOver, connectDropTarget } = this.props;
-    let bg = isOver ? '#9f9' : '';
-    bg = selected ? '#ff0' : bg;
-    
-    const tTags = tags.map((t, idx) =>
-      <StringTag label={t} key={t+idx} />
-    );
-    
+    let bg = isOver ? "#9f9" : "";
+    bg = selected ? "#ff0" : bg;
+
+    const tTags = tags.map((t, idx) => <StringTag label={t} key={t + idx} />);
+
     return connectDropTarget(
-      <li className='transaction' style={{backgroundColor: bg}} key={id} >
+      <li className="transaction" style={{ backgroundColor: bg }} key={id}>
         <span id="date">{this.formatDate(transactionDate)}</span>
-        <span id="description" onClick={this.onClick}>{description}</span>
+        <span id="description" onClick={this.onClick}>
+          {description}
+        </span>
         <div>
           <span>{formatCurrency(debit)}</span>
           <span>{formatCurrency(credit)}</span>
@@ -94,12 +92,12 @@ class Transaction extends React.Component {
 }
 
 Transaction.defaultProps = {
-  onClick: () => {},
+  onClick: () => {}
 };
 
 Transaction.propTypes = {
   data: PropTypes.object.isRequired,
-  onClick: PropTypes.func,
+  onClick: PropTypes.func
 };
 
-export default DropTarget(Types.TAGDND, dropTarget, collect)(Transaction);
+export default DropTarget(TAGDND, dropTarget, collect)(Transaction);

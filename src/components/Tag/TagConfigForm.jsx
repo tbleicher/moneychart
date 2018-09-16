@@ -1,21 +1,22 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import React from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
 
-import ColorPicker from '../common/ColorPicker';
+import { addTag, updateTag } from "../../reducers/Tags";
 
-import { addTag, updateTag } from './TagsListActions';
-import SelectFieldGroup from '../common/SelectFieldGroup';
-import TextFieldGroup from '../common/TextFieldGroup';
-import WordList from '../WordList';
+import ColorPicker from "../common/ColorPicker";
 
-import './Tag.css';
+import SelectFieldGroup from "../common/SelectFieldGroup";
+import TextFieldGroup from "../common/TextFieldGroup";
+import WordList from "../WordList";
+
+import "./Tag.css";
 
 function splitLabel(label) {
-  const parts = label.split('::');
+  const parts = label.split("::");
   return {
     label: parts[parts.length - 1],
-    nest: parts.slice(0, parts.length - 1).join('::')
+    nest: parts.slice(0, parts.length - 1).join("::")
   };
 }
 
@@ -26,11 +27,11 @@ function getStateFromTag(tag, opts = {}) {
 
 function getTagFromState(state) {
   const label =
-    state.nest !== '' ? [state.nest, state.label].join('::') : state.label;
+    state.nest !== "" ? [state.nest, state.label].join("::") : state.label;
   return {
     id: state.id,
     label,
-    patterns: state.patterns.filter(p => p !== ''),
+    patterns: state.patterns.filter(p => p !== ""),
     color: state.color
   };
 }
@@ -40,11 +41,11 @@ class TagConfigForm extends React.Component {
     super(props);
 
     this.defaultState = {
-      id: '',
-      label: '',
-      patterns: [''],
-      color: '#969696',
-      nest: '',
+      id: "",
+      label: "",
+      patterns: [""],
+      color: "#969696",
+      nest: "",
       dirty: false,
       errors: {}
     };
@@ -71,7 +72,7 @@ class TagConfigForm extends React.Component {
   }
 
   onAddPattern() {
-    this.setState({ patterns: [...this.state.patterns, ''] });
+    this.setState({ patterns: [...this.state.patterns, ""] });
   }
 
   onChange(e) {
@@ -83,7 +84,7 @@ class TagConfigForm extends React.Component {
   }
 
   onChangePattern(e) {
-    const idx = e.target.name.split('_')[1];
+    const idx = e.target.name.split("_")[1];
     const patterns = this.state.patterns.slice();
     patterns[idx] = e.target.value;
     this.setState({ patterns, dirty: true });
@@ -106,7 +107,7 @@ class TagConfigForm extends React.Component {
     const tag = getTagFromState(this.state);
 
     if (this.props.tag.id) {
-      this.props.updateTag(Object.assign(tag, {selected: true}));
+      this.props.updateTag(Object.assign(tag, { selected: true }));
       this.setState({ dirty: false });
     } else {
       this.props.addTag(tag);
@@ -115,15 +116,15 @@ class TagConfigForm extends React.Component {
   }
 
   render() {
-    const optionsList = [{ label: '[none]', value: '' }].concat(
+    const optionsList = [{ label: "[none]", value: "" }].concat(
       this.props.tags
         .filter(t => !t.label.startsWith(this.props.tag.label))
         .map(t => ({ label: t.label, value: t.label }))
     );
     const patternsList =
-      this.state.patterns.length !== 0 ? this.state.patterns : [''];
+      this.state.patterns.length !== 0 ? this.state.patterns : [""];
     const patterns = patternsList.map((p, idx, lst) => {
-      const field = 'tagpattern_' + idx;
+      const field = "tagpattern_" + idx;
       return (
         <TextFieldGroup
           key={idx}
@@ -180,7 +181,7 @@ class TagConfigForm extends React.Component {
               className="button-small button-success button"
               onClick={this.onSave}
             >
-              {this.props.tag.id ? 'Update' : 'Create'}
+              {this.props.tag.id ? "Update" : "Create"}
             </button>
           </div>
         ) : null}
@@ -199,7 +200,7 @@ TagConfigForm.propTypes = {
 
 TagConfigForm.defaultProps = {
   tag: {},
-  title: 'Tag Details',
+  title: "Tag Details",
   onReset: () => {},
   onSave: () => {}
 };
@@ -217,4 +218,7 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(TagConfigForm);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TagConfigForm);
