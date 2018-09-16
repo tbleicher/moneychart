@@ -1,7 +1,7 @@
 import React from "react";
 
 import Section from "../Section";
-import TransactionsTable from "./TransactionsTableConnected";
+import TransactionsTable from "./TransactionsTableContainer";
 import { TagsList } from "../Tag";
 
 import "./TransactionsListView.css";

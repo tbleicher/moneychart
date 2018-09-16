@@ -1,19 +1,17 @@
-import { 
+import {
   ADD_TRANSACTION,
   MERGE_TRANSACTIONS,
   REMOVE_TRANSACTION,
   UPDATE_TRANSACTION,
   SELECT_TRANSACTION,
   SET_TRANSACTIONS
-} from './TransactionsListTypes';
+} from "./TransactionActionTypes";
 
-import { parseCSVLine } from '../../utils/TransactionParser';
-import { mergeTransactionLists } from './TransactionsListUtils';
+import { parseCSVLine } from "../../utils/TransactionParser";
+import { mergeTransactionLists } from "./utils";
 
-
-const transactionsList = (state=[], action) => {
+const transactionsList = (state = [], action) => {
   switch (action.type) {
-    
     case ADD_TRANSACTION:
       const transaction = parseCSVLine(action.payload);
       if (transaction) {
@@ -27,33 +25,29 @@ const transactionsList = (state=[], action) => {
 
     case REMOVE_TRANSACTION:
       return state.filter(t => t.id !== action.payload);
-    
+
     case SET_TRANSACTIONS:
       return action.payload.slice();
 
     case SELECT_TRANSACTION:
-      return state.map((t) => {
+      return state.map(t => {
         if (t.id === action.payload) {
-          return Object.assign({}, t, { selected: true });
+          return { ...t, selected: true };
         } else if (t.selected) {
-          return Object.assign({}, t, { selected: false });
+          return { ...t, selected: false };
         } else {
           return t;
         }
       });
-    
+
     case UPDATE_TRANSACTION:
-      return state.map((t) => {
-        if (t.id === action.payload.id) {
-          return Object.assign({}, t, action.payload.values, { id: t.id });    
-        } else {
-          return t;
-        }
+      return state.map(t => {
+        return t.id === action.payload.id ? { ...t, ...action.payload } : t;
       });
 
     default:
       return state;
   }
-}
+};
 
 export default transactionsList;

@@ -3,7 +3,8 @@ import { connect } from "react-redux";
 import {
   selectTransaction,
   updateTransaction
-} from "./TransactionsListActions";
+} from "../../reducers/Transactions";
+
 import TransactionsTable from "./TransactionsTable";
 
 function mapStateToProps(state) {

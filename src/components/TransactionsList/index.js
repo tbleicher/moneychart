@@ -1,15 +1,7 @@
-import ConnectedTransactionsList from './ConnectedTransactionsList';
-import TransactionsList from './TransactionsList';
-import TransactionsListReducer from './TransactionsListReducer';
-import TransactionsListView from './TransactionsListView';
-import TransactionsTable from './TransactionsTable';
-import * as Types from './TransactionsListTypes';
+import TransactionsList from "./TransactionsListContainer";
 
-export {
-  ConnectedTransactionsList,
-  TransactionsListReducer,
-  TransactionsListView,
-  TransactionsTable,
-  Types
-};
+import TransactionsListView from "./TransactionsListView";
+import TransactionsTable from "./TransactionsTable";
+
+export { TransactionsList, TransactionsListView, TransactionsTable };
 export default TransactionsList;

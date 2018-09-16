@@ -1,12 +1,13 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import { TransactionsTable } from "../TransactionsList";
-import { TagsList } from "../Tag";
-import { mergeTransactionLists } from "../TransactionsList/TransactionsListUtils";
-import { mergeTransactions } from "../TransactionsList/TransactionsListActions";
+import { mergeTransactionLists } from "../../reducers/Transactions/utils";
+import { mergeTransactions } from "../../reducers/Transactions";
+
 import { parseCSVLine, parseHSBC } from "../../utils/TransactionParser";
 
+import { TransactionsTable } from "../TransactionsList";
+import { TagsList } from "../Tag";
 import "./NewEntry.css";
 import "../css/button.css";
 

@@ -2,7 +2,7 @@ import { combineReducers } from "redux";
 import { routerReducer } from "react-router-redux";
 
 import accounts from "./reducers/Accounts";
-import { TransactionsListReducer as transactions } from "./components/TransactionsList";
+import transactions from "./reducers/Transactions";
 import tags from "./reducers/Tags";
 
 export default combineReducers({
