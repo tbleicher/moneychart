@@ -1,7 +1,6 @@
-import ConnectedAccount from "./ConnectedAccount";
-import Account from "./Account";
+import Account from "./AccountContainer";
 
-import ConnectedAccountsView from "./ConnectedAccountsView";
+import AccountsViewContainer from "./AccountsViewContainer";
 
-export { ConnectedAccount, Account };
-export default ConnectedAccountsView;
+export { Account };
+export default AccountsViewContainer;

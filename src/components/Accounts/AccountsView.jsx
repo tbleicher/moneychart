@@ -1,6 +1,6 @@
 import React from "react";
 
-import Account from "./ConnectedAccount";
+import Account from "./AccountContainer";
 import DemoAccount from "./DemoAccount";
 import NewAccount from "./NewAccount";
 
