@@ -33,6 +33,14 @@ class NewAccount extends React.Component {
     });
   };
 
+  onFillClick = () => {
+    this.setState({
+      name: `Test Acc ${parseInt(Math.random() * 10e3, 10)}`,
+      number: `${parseInt(Math.random() * 10e8, 10)}`,
+      password: "password"
+    });
+  };
+
   render() {
     const { name, number, password } = this.state;
 
@@ -71,13 +79,19 @@ class NewAccount extends React.Component {
             />
           </p>
 
-          <button
-            onClick={this.onClick}
-            className={className}
-            disabled={disabled}
-          >
-            add account
-          </button>
+          <div className="button-row">
+            <button onClick={this.onFillClick} className="button">
+              fill
+            </button>
+            <div className="button-row-space" />
+            <button
+              onClick={this.onClick}
+              className={className}
+              disabled={disabled}
+            >
+              add account
+            </button>
+          </div>
         </div>
       </div>
     );

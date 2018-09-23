@@ -49,3 +49,12 @@
 .button-group .button {
   margin-right: 10px;
 }
+
+.button-row {
+  display: flex;
+  align-items: center;
+}
+
+.button-row-space {
+  flex-grow: 1;
+}

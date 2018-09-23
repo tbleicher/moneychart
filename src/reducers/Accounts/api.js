@@ -17,7 +17,7 @@ export const addAccount = account => {
 };
 
 export const deleteAccount = id => {
-  return fetch(`/api/accounts/${id}`, {
+  return fetch(`/api/account/${id}`, {
     method: "DELETE"
   })
     .then(response => {
@@ -29,8 +29,7 @@ export const deleteAccount = id => {
 };
 
 export const loadAccount = id => {
-  console.log("id", id);
-  return fetch(`/api/accounts/${id}`, {
+  return fetch(`/api/account/${id}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json"
@@ -39,7 +38,6 @@ export const loadAccount = id => {
     .then(response => {
       return response.json();
     })
-
     .catch(error => ({
       error
     }));

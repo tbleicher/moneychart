@@ -7,6 +7,7 @@ import {
 } from "./AccountActionTypes";
 
 import * as api from "./api";
+import { createTag, loadTags } from "../Tags/api";
 
 export const addAccount = account => {
   return dispatch => {
@@ -25,7 +26,6 @@ export const addAccount = account => {
 
 export const deleteAccount = id => {
   return dispatch => {
-    console.log("deleteAccount", id);
     api.deleteAccount(id).then(data => {
       if (data.error) {
         console.error(data.error);
@@ -41,7 +41,6 @@ export const deleteAccount = id => {
 
 export const loadAccounts = () => {
   return function(dispatch) {
-    console.log("loadAccounts");
     api.loadAccounts().then(data => {
       if (data.error) {
         console.error(data.error);
@@ -57,7 +56,6 @@ export const loadAccounts = () => {
 
 export const selectAccount = id => {
   return dispatch => {
-    console.log(`selectAccount(${id})`);
     api.loadAccount(id).then(account => {
       const tags = [
         { color: "#faa", id: 1, label: "red" },
