@@ -37,8 +37,11 @@ function collect(connect, monitor) {
     connectDropTarget: connect.dropTarget(),
     // You can ask the monitor about the current drag state:
     isOver: monitor.isOver()
+
     //isOverCurrent: monitor.isOver({ shallow: true }),
+
     //canDrop: monitor.canDrop(),
+
     //itemType: monitor.getItemType()
   };
 }
@@ -60,10 +63,8 @@ class TransactionRow extends React.Component {
   }
 
   render() {
-    const { amount, description, id, selected } = this.props.data;
+    const { amount, balance, description, id, selected } = this.props.data;
 
-    const credit = amount >= 0 ? amount : 0.0;
-    const debit = amount < 0 ? amount : 0.0;
     const date = new Date(this.props.data.date);
     const tags = this.props.data.tags || [];
 
@@ -80,8 +81,8 @@ class TransactionRow extends React.Component {
       <tr className="transactionRow" style={{ backgroundColor: bg }} key={id}>
         <td>{this.formatDate(date)}</td>
         <td onClick={this.onClick}>{description}</td>
-        <td>{formatCurrency(debit)}</td>
-        <td>{formatCurrency(credit)}</td>
+        <td>{formatCurrency(amount)}</td>
+        <td>{formatCurrency(balance)}</td>
         <td>{stringTags}</td>
       </tr>
     );
@@ -98,7 +99,7 @@ TransactionRow.propTypes = {
     amount: PropTypes.number.isRequired,
     balance: PropTypes.number.isRequired,
     description: PropTypes.string,
-    id: PropTypes.number.isRequired,
+    id: PropTypes.string.isRequired,
     selected: PropTypes.bool,
     tags: PropTypes.array // TODO: isRequired
   }).isRequired,

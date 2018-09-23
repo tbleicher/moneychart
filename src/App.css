@@ -63,3 +63,25 @@ section.views div {
 .header.account > * {
   padding: 0.5em 1em;
 }
+
+input {
+  padding: 0.5em;
+}
+
+.transactionTable {
+  width: 100%;
+}
+.transactionInput {
+  display: flex;
+  margin-top: 1em;
+}
+.transactionInput button {
+  padding: 0.5em;
+  min-width: 80px;
+}
+.descriptionInput {
+  flex-grow: 1;
+}
+.valueInput {
+  width: 80px;
+}

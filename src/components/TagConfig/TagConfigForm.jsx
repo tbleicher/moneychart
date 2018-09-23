@@ -99,17 +99,18 @@ class TagConfigForm extends React.Component {
   onSave = () => {
     const { account, tag, createTag, updateTag } = this.props;
 
-    const tag = getTagFromState(this.state);
-    console.log();
-    if (this.props.tag.id) {
-      updateTag(Object.assign(tag, { selected: true }));
+    const _tag = getTagFromState(this.state);
+    console.log("todo: create", _tag);
+
+    if (tag.id) {
+      updateTag({ ...tag, ..._tag, selected: true });
       this.setState({ dirty: false });
     } else {
       if (!account) {
         console.error("no account selected");
         return;
       }
-      createTag(account.id, tag);
+      createTag(account.id, _tag);
       this.setState(this.defaultState);
     }
   };
@@ -208,7 +209,8 @@ TagConfigForm.defaultProps = {
 const mapStateToProps = state => {
   return {
     account: state.accounts.find(acc => acc.selected),
-    tag: state.tags.find(tag => tag.selected)
+    tag: state.tags.find(tag => tag.selected),
+    tags: state.tags
   };
 };
 

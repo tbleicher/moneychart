@@ -1,5 +1,5 @@
 export const createTag = (account_id, tag) => {
-  console.log("TEST TAG:", JSON(tag, none, 8));
+  console.log("TEST TAG:", JSON.stringify(tag, null, 8));
   console.log("     acc:", account_id);
   const { label, color } = tag;
 

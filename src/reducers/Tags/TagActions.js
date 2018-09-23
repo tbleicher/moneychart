@@ -7,6 +7,8 @@ import {
   UPDATE_TAG
 } from "./TagActionTypes";
 
+import * as api from "./api";
+
 export function addTag(tag) {
   return {
     type: ADD_TAG,

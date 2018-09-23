@@ -6,10 +6,21 @@ import {
   UPDATE_TRANSACTION
 } from "./TransactionActionTypes";
 
-export function addTransaction(text) {
+import * as api from "./api";
+
+export const createTransaction = (accountId, data) => {
+  return dispatch => {
+    api.createTransaction(accountId, data).then(transaction => {
+      console.log("trans:", transaction);
+      dispatch(addTransaction(transaction));
+    });
+  };
+};
+
+export function addTransaction(transaction) {
   return {
     type: ADD_TRANSACTION,
-    payload: text
+    payload: transaction
   };
 }
 

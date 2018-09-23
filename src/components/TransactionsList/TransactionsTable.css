@@ -4,6 +4,7 @@
   border-spacing: 0;
   empty-cells: show;
   border: 1px solid #cbcbcb;
+  width: 100%;
 }
 .pure-table td,
 .pure-table th {
@@ -20,7 +21,7 @@
   border-right: 1px solid #cbcbcb;
 }
 .tablewrapper {
-  margin-right: 30px;
+  /* margin-right: 30px; */
 }
 #transactionstable {
   width: 100%;

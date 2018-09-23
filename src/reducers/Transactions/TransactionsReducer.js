@@ -13,12 +13,9 @@ import { mergeTransactionLists } from "./utils";
 const transactionsList = (state = [], action) => {
   switch (action.type) {
     case ADD_TRANSACTION:
-      const transaction = parseCSVLine(action.payload);
-      if (transaction) {
-        return [...state, transaction];
-      } else {
-        return state;
-      }
+      console.log("ADD_TRANSACTION", action.payload);
+      // const transaction = parseCSVLine(action.payload);
+      return [...state, action.payload];
 
     case MERGE_TRANSACTIONS:
       return mergeTransactionLists(state, action.payload);
