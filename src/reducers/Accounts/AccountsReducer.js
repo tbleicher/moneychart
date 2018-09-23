@@ -8,6 +8,23 @@ import {
   UPDATE_ACCOUNT
 } from "./AccountActionTypes";
 
+const mergeAccountsList = (state, update) => {
+  const sIds = state.map(account => account.id);
+  const uIds = update.map(account => account.id);
+
+  const unique = Array.from(new Set([...sIds, ...uIds]).values());
+
+  const newState = unique.map(id => {
+    const sAcc = state.find(acc => acc.id === id) || {};
+    const uAcc = update.find(acc => acc.id === id) || {};
+
+    return { ...sAcc, ...uAcc };
+  });
+
+  console.log(JSON.stringify(newState.map(acc => acc.id), null, 2));
+  return newState;
+};
+
 const AccountsListReducer = (state = [], action) => {
   switch (action.type) {
     case ADD_ACCOUNT:
@@ -19,7 +36,7 @@ const AccountsListReducer = (state = [], action) => {
       return state.filter(account => account.id !== action.payload);
 
     case LOAD_ACCOUNTS:
-      return [...action.payload];
+      return mergeAccountsList(state, action.payload);
 
     case SELECT_ACCOUNT:
       console.log("SELECT_ACCOUNT", action);

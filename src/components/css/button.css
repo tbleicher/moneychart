@@ -46,8 +46,20 @@
   background: rgb(66, 184, 221);
 }
 
+.button-group {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  /* margin-right: 10px; */
+}
+
 .button-group .button {
   margin-right: 10px;
+}
+
+.button-group .button:last-child {
+  margin-right: 0;
 }
 
 .button-row {

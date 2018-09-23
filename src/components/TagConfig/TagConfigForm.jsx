@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
-import { addTag, updateTag } from "../../reducers/Tags";
+import { addTag, createTag, updateTag } from "../../reducers/Tags";
 
 import ColorPicker from "../common/ColorPicker";
 
@@ -10,7 +10,7 @@ import SelectFieldGroup from "../common/SelectFieldGroup";
 import TextFieldGroup from "../common/TextFieldGroup";
 import WordList from "../WordList";
 
-import "./Tag.css";
+import "../Tag/Tag.css";
 
 function splitLabel(label) {
   const parts = label.split("::");
@@ -26,8 +26,9 @@ function getStateFromTag(tag, opts = {}) {
 }
 
 function getTagFromState(state) {
-  const label =
-    state.nest !== "" ? [state.nest, state.label].join("::") : state.label;
+  const label = state.nest !== ""
+    ? [state.nest, state.label].join("::")
+    : state.label;
   return {
     id: state.id,
     label,
@@ -54,14 +55,6 @@ class TagConfigForm extends React.Component {
       this.defaultState,
       getStateFromTag(this.props.tag)
     );
-
-    this.onAddPattern = this.onAddPattern.bind(this);
-    this.onChange = this.onChange.bind(this);
-    this.onChangeColor = this.onChangeColor.bind(this);
-    this.onChangePattern = this.onChangePattern.bind(this);
-    this.onRemovePattern = this.onRemovePattern.bind(this);
-    this.onReset = this.onReset.bind(this);
-    this.onSave = this.onSave.bind(this);
   }
 
   componentWillReceiveProps(nextprops) {
@@ -71,49 +64,55 @@ class TagConfigForm extends React.Component {
     }
   }
 
-  onAddPattern() {
+  onAddPattern = () => {
     this.setState({ patterns: [...this.state.patterns, ""] });
-  }
+  };
 
-  onChange(e) {
+  onChange = e => {
     this.setState({ [e.target.name]: e.target.value, dirty: true });
-  }
+  };
 
-  onChangeColor(color) {
+  onChangeColor = color => {
     this.setState({ color, dirty: true });
-  }
+  };
 
-  onChangePattern(e) {
+  onChangePattern = e => {
     const idx = e.target.name.split("_")[1];
     const patterns = this.state.patterns.slice();
     patterns[idx] = e.target.value;
     this.setState({ patterns, dirty: true });
-  }
+  };
 
-  onRemovePattern(idx, e) {
+  onRemovePattern = (idx, e) => {
     const patterns = this.state.patterns.slice();
     patterns.splice(idx, 1);
     this.setState({ patterns, dirty: true });
-  }
+  };
 
-  onReset() {
+  onReset = () => {
     const newstate = this.props.tag.id
       ? getStateFromTag(this.props.tag, { dirty: false })
       : this.defaultState;
     this.setState(newstate);
-  }
+  };
 
-  onSave() {
+  onSave = () => {
+    const { account, tag, createTag, updateTag } = this.props;
+
     const tag = getTagFromState(this.state);
-
+    console.log();
     if (this.props.tag.id) {
-      this.props.updateTag(Object.assign(tag, { selected: true }));
+      updateTag(Object.assign(tag, { selected: true }));
       this.setState({ dirty: false });
     } else {
-      this.props.addTag(tag);
+      if (!account) {
+        console.error("no account selected");
+        return;
+      }
+      createTag(account.id, tag);
       this.setState(this.defaultState);
     }
-  }
+  };
 
   render() {
     const optionsList = [{ label: "[none]", value: "" }].concat(
@@ -121,8 +120,9 @@ class TagConfigForm extends React.Component {
         .filter(t => !t.label.startsWith(this.props.tag.label))
         .map(t => ({ label: t.label, value: t.label }))
     );
-    const patternsList =
-      this.state.patterns.length !== 0 ? this.state.patterns : [""];
+    const patternsList = this.state.patterns.length !== 0
+      ? this.state.patterns
+      : [""];
     const patterns = patternsList.map((p, idx, lst) => {
       const field = "tagpattern_" + idx;
       return (
@@ -172,19 +172,19 @@ class TagConfigForm extends React.Component {
           />
         </div>
 
-        {this.state.label && this.state.dirty ? (
-          <div className="button-group">
-            <button className="button-white button" onClick={this.onReset}>
-              Reset
-            </button>
-            <button
-              className="button-small button-success button"
-              onClick={this.onSave}
-            >
-              {this.props.tag.id ? "Update" : "Create"}
-            </button>
-          </div>
-        ) : null}
+        {this.state.label && this.state.dirty
+          ? <div className="button-group">
+              <button className="button-white button" onClick={this.onReset}>
+                Reset
+              </button>
+              <button
+                className="button-small button-success button"
+                onClick={this.onSave}
+              >
+                {this.props.tag.id ? "Update" : "Create"}
+              </button>
+            </div>
+          : null}
 
         <WordList patterns={this.state.patterns} />
       </div>
@@ -205,20 +205,19 @@ TagConfigForm.defaultProps = {
   onSave: () => {}
 };
 
-function mapStateToProps(state) {
+const mapStateToProps = state => {
   return {
-    tags: state.tags
+    account: state.accounts.find(acc => acc.selected),
+    tag: state.tags.find(tag => tag.selected)
   };
-}
+};
 
-function mapDispatchToProps(dispatch) {
+const mapDispatchToProps = dispatch => {
   return {
     addTag: tag => dispatch(addTag(tag)),
+    createTag: (account_id, tag) => dispatch(createTag(account_id, tag)),
     updateTag: tag => dispatch(updateTag(tag))
   };
-}
+};
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(TagConfigForm);
+export default connect(mapStateToProps, mapDispatchToProps)(TagConfigForm);

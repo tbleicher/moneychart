@@ -7,23 +7,28 @@ import NewAccount from "./NewAccount";
 import "./Account.css";
 
 class AccountsView extends React.Component {
+  static defaultProps = {
+    accounts: []
+  };
+
   componentDidMount() {
+    console.log("did mount => loadAccounts()");
     this.props.loadAccounts();
   }
 
   render() {
-    const accounts = this.props.accounts.length ? (
-      this.props.accounts.map(account => (
-        <Account
-          key={account.id}
-          {...account}
-          deleteAccount={() => this.props.deleteAccount(account.id)}
-          selectAccount={() => this.props.selectAccount(account.id)}
-        />
-      ))
-    ) : (
-      <DemoAccount />
-    );
+    const { accounts } = this.props;
+
+    const panels = accounts.map(account => (
+      <Account
+        key={account.id}
+        {...account}
+        deleteAccount={() => this.props.deleteAccount(account.id)}
+        selectAccount={() => this.props.selectAccount(account.id)}
+      />
+    ));
+
+    const demoAccount = accounts.length ? null : <DemoAccount />;
 
     return (
       <section className="views">
@@ -31,7 +36,8 @@ class AccountsView extends React.Component {
         <h2>Accounts</h2>
 
         <div className="accountsview">
-          {accounts}
+          {panels}
+          {demoAccount}
           <NewAccount />
         </div>
       </section>

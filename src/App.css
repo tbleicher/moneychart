@@ -53,3 +53,13 @@ section.views svg,
 section.views div {
   /* outline: 1px solid red; */
 }
+
+.header.account {
+  border: none;
+  padding: 3px;
+  display: flex;
+  background-color: #ddd;
+}
+.header.account > * {
+  padding: 0.5em 1em;
+}

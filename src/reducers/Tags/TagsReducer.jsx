@@ -1,5 +1,3 @@
-import shortid from "shortid";
-
 import {
   ADD_TAG,
   MERGE_TAGS,
@@ -13,8 +11,8 @@ const TagsListReducer = (state = [], action) => {
   switch (action.type) {
     case ADD_TAG:
       return state
-        .map(tag => Object.assign({}, tag, { selected: false }))
-        .concat([Object.assign(action.payload, { id: shortid.generate() })]);
+        .map(tag => (tag.selected ? { ...tag, selected: false } : tag))
+        .concat({ ...action.payload, selected: true });
 
     case MERGE_TAGS:
       return state.concat(action.payload);

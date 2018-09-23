@@ -7,7 +7,6 @@ import {
 } from "./AccountActionTypes";
 
 import * as api from "./api";
-import { createTag, loadTags } from "../Tags/api";
 
 export const addAccount = account => {
   return dispatch => {

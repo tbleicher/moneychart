@@ -5,9 +5,9 @@ import { selectTag } from "../../reducers/Tags";
 
 import Section from "../Section";
 import TagConfigForm from "./TagConfigForm";
-import TagsList from "./TagsList";
+import TagsList from "../Tag/TagsList";
 
-import "./Tag.css";
+import "../Tag/Tag.css";
 import "./TagConfigView.css";
 
 class TagConfigView extends React.Component {
@@ -49,7 +49,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(TagConfigView);
+export default connect(mapStateToProps, mapDispatchToProps)(TagConfigView);

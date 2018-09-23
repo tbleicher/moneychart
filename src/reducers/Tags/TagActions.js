@@ -14,6 +14,18 @@ export function addTag(tag) {
   };
 }
 
+export const createTag = (account_id, tag) => {
+  console.log("TODO: create tag", account_id, tag);
+  return dispatch => {
+    api
+      .createTag(account_id, tag)
+      .then(tag => {
+        dispatch(addTag(tag));
+      })
+      .catch(error => console.log(error));
+  };
+};
+
 export function mergeTags(arr) {
   return {
     type: MERGE_TAGS,

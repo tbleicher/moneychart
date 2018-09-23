@@ -20,6 +20,7 @@ const tagSource = {
     const dropResult = monitor.getDropResult();
     if (dropResult && dropResult.id) {
       console.log(`addedTag ${dropResult.label} to ${dropResult.id}`);
+
       // TODO: save transactions?
     }
   }
@@ -65,7 +66,7 @@ class TagDnD extends React.Component {
 TagDnD.propTypes = {
   data: PropTypes.shape({
     color: PropTypes.string.isRequired,
-    id: PropTypes.number.isRequired,
+    id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
     label: PropTypes.string.isRequired
   }).isRequired,
   onClick: PropTypes.func

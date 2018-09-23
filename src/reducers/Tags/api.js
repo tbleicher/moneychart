@@ -1,10 +1,12 @@
-export const createTag = account_id => {
+export const createTag = (account_id, tag) => {
+  console.log("TEST TAG:", JSON(tag, none, 8));
+  console.log("     acc:", account_id);
+  const { label, color } = tag;
+
+  return;
   return fetch(`/api/account/${account_id}/tags`, {
     method: "POST",
-    body: JSON.stringify({
-      color: "#890abc",
-      label: "bills::water"
-    }),
+    body: JSON.stringify({ label, color }),
     headers: {
       "Content-Type": "application/json"
     }
