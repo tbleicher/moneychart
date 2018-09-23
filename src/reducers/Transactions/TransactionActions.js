@@ -3,6 +3,7 @@ import {
   MERGE_TRANSACTIONS,
   REMOVE_TRANSACTION,
   SELECT_TRANSACTION,
+  SET_TRANSACTIONS,
   UPDATE_TRANSACTION
 } from "./TransactionActionTypes";
 
@@ -44,6 +45,15 @@ export function selectTransaction(id) {
     payload: id
   };
 }
+
+export const setTransactions = transactions => {
+  console.log("ta.setTransactions", transactions.length);
+
+  return {
+    type: SET_TRANSACTIONS,
+    payload: transactions
+  };
+};
 
 export function updateTransaction(t) {
   return {

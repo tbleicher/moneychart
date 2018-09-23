@@ -1,3 +1,5 @@
+import setTransactions from "../Transactions";
+
 import {
   ADD_ACCOUNT,
   DELETE_ACCOUNT,
@@ -54,8 +56,10 @@ export const loadAccounts = () => {
 };
 
 export const selectAccount = id => {
+  console.log("selectAccount");
   return dispatch => {
     api.loadAccount(id).then(account => {
+      console.log(JSON.stringify(account, null, 2));
       const tags = [
         { color: "#faa", id: 1, label: "red" },
         { color: "#afa", id: 1, label: "green" },
@@ -64,12 +68,14 @@ export const selectAccount = id => {
 
       dispatch({
         type: UPDATE_ACCOUNT,
-        payload: { ...account, tags }
+        payload: { ...account, tags, selected: true }
       });
 
+      console.log("debug aa.setTransactions", account.transactions.length);
+
       dispatch({
-        type: SELECT_ACCOUNT,
-        payload: id
+        type: "SET_TRANSACTIONS",
+        payload: account.transactions
       });
     });
   };

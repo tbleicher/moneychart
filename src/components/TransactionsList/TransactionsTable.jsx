@@ -20,22 +20,20 @@ class TransactionsTable extends React.Component {
     ));
 
     return (
-      <div className="tablewrapper">
-        <table className="pure-table">
-          <thead>
-            <tr>
-              <th>Date</th>
-              <th>Description</th>
-              <th>Amount</th>
-              <th>Balance</th>
-              <th>Categories</th>
-            </tr>
-          </thead>
-          <tbody>
-            {transactions}
-          </tbody>
-        </table>
-      </div>
+      <table className="pure-table">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Description</th>
+            <th>Amount</th>
+            <th>Balance</th>
+            <th>Categories</th>
+          </tr>
+        </thead>
+        <tbody>
+          {transactions}
+        </tbody>
+      </table>
     );
   }
 }

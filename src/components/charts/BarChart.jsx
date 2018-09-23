@@ -1,20 +1,20 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 import {
   scaleLinear,
   scaleTime,
   scaleOrdinal,
   schemeCategory20
-} from 'd3-scale';
-import { timeFormat } from 'd3-time-format';
-import { nest } from 'd3-collection';
-import { extent, format } from 'd3';
+} from "d3-scale";
+import { timeFormat } from "d3-time-format";
+import { nest } from "d3-collection";
+import { extent, format } from "d3";
 
-import Axis from './Axis';
-import Brush from './Brush';
-import ToolTip from './ToolTip';
+import Axis from "./Axis";
+import Brush from "./Brush";
+import ToolTip from "./ToolTip";
 
-import './BarChart.css';
+import "./BarChart.css";
 
 function getTitle(title, margin, size = 20, offset = 10) {
   const x = 20;
@@ -27,14 +27,13 @@ function getTitle(title, margin, size = 20, offset = 10) {
 }
 
 function logWheelEvent(e) {
-  console.log(`delta: Y: ${e.deltaY}`)
+  console.log(`delta: Y: ${e.deltaY}`);
 }
 
-function renderBar(d, xScale, yScale, hover = '', evtListeners = {}) {
-  const xDate = new Date(d.valueDate.getTime() - 12 * 60 * 60 * 1000);
+function renderBar(d, xScale, yScale, hover = "", evtListeners = {}) {
+  const xDate = new Date(d.date.getTime() - 12 * 60 * 60 * 1000);
   const dW =
-    xScale(new Date(d.valueDate.getTime() + 12 * 60 * 60 * 1000)) -
-    xScale(xDate);
+    xScale(new Date(d.date.getTime() + 12 * 60 * 60 * 1000)) - xScale(xDate);
   const gap = 0.2 * dW > 10 ? 10 : 0.2 * dW;
   const wDay = dW - gap;
   const offset = d.perDay[0] * wDay / d.perDay[1];
@@ -42,13 +41,12 @@ function renderBar(d, xScale, yScale, hover = '', evtListeners = {}) {
   const x = xScale(xDate) + gap / 2 + offset;
   const y = d.credit === 0 ? yScale(d.balance + d.debit) : yScale(d.balance);
   const w = wDay / d.perDay[1] > 1 ? wDay / d.perDay[1] : 1;
-  const h =
-    d.credit === 0
-      ? yScale(d.balance) - yScale(d.balance + d.debit)
-      : yScale(d.balance) - yScale(d.balance + d.credit);
+  const h = d.credit === 0
+    ? yScale(d.balance) - yScale(d.balance + d.debit)
+    : yScale(d.balance) - yScale(d.balance + d.credit);
 
   let opacity = 0.9;
-  if (hover !== '' && hover !== d.id) {
+  if (hover !== "" && hover !== d.id) {
     opacity = 0.5;
   }
   const style = {
@@ -81,7 +79,7 @@ function renderBars(
   chartWidth,
   xScale,
   yScale,
-  hover = '',
+  hover = "",
   evtListeners = {}
 ) {
   if (!data.length) {
@@ -93,7 +91,8 @@ function renderBars(
 
 // extend range of transaction times by 12 hours left and right
 function getXDomain(data) {
-  const ex = extent(data.map(d => d.valueDate));
+  console.log("data", data);
+  const ex = extent(data.map(d => d.date || d.date));
   const start = new Date(ex[0].getTime() - 1000 * 60 * 60 * 12);
   const end = new Date(ex[1].getTime() + 1000 * 60 * 60 * 12);
 
@@ -104,7 +103,7 @@ class BarChart extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      hover: '',
+      hover: "",
       ttX: 0,
       ttY: 0,
       ttOffset: 0,
@@ -136,7 +135,7 @@ class BarChart extends React.Component {
   }
 
   onMouseLeave(evt) {
-    this.setState({ hover: '' });
+    this.setState({ hover: "" });
   }
 
   render() {
@@ -150,7 +149,8 @@ class BarChart extends React.Component {
     const tagColors = new Map(tags.map(t => [t.label, t.color]));
     const nested = nest()
       .key(function(d) {
-        return d.valueDate.toISOString();
+        const date = d.date || d.date;
+        return date.toISOString();
       })
       .entries(data);
 
@@ -167,14 +167,14 @@ class BarChart extends React.Component {
           v.perDay = [i, n];
         }
         v.color = v.tags.length
-          ? tagColors.get(v.tags[v.tags.length-1])
-          : '#cbcbcb';
+          ? tagColors.get(v.tags[v.tags.length - 1])
+          : "#cbcbcb";
       });
     });
 
     const displayData = data
-      .filter(d => d.valueDate >= selectionStart)
-      .filter(d => d.valueDate < selectionEnd);
+      .filter(d => d.date >= selectionStart)
+      .filter(d => d.date < selectionEnd);
 
     const chartWidth = width - margin.left - margin.right;
     const chartHeight = height - margin.top - margin.bottom;
@@ -186,26 +186,22 @@ class BarChart extends React.Component {
     const xScaleBrush = scaleTime()
       .range([0, chartWidth])
       .domain(getXDomain(data));
-    
+
     const extY = extent(
       data
         .map(d => d.balance + d.debit)
         .concat(data.map(d => d.balance - d.credit))
     );
 
-    const yScale = scaleLinear()
-      .range([chartHeight, 0])
-      .domain(extY);
-      //   extent(
-      //     displayData
-      //       .map(d => d.balance + d.debit)
-      //       .concat(displayData.map(d => d.balance - d.credit))
-      //   )
-      // );
+    const yScale = scaleLinear().range([chartHeight, 0]).domain(extY);
+    //   extent(
+    //     displayData
+    //       .map(d => d.balance + d.debit)
+    //       .concat(displayData.map(d => d.balance - d.credit))
+    //   )
+    // );
 
-    const yScaleBrush = scaleLinear()
-      .range([40, 0])
-      .domain(extY);
+    const yScaleBrush = scaleLinear().range([40, 0]).domain(extY);
 
     const evtListeners = {
       onClick,
@@ -237,23 +233,30 @@ class BarChart extends React.Component {
           chartWidth={chartWidth}
         />
       ));
-    
-    return (  
-      <svg className="barchart" width={width} height={height}
-        onWheel={logWheelEvent}>
+
+    return (
+      <svg
+        className="barchart"
+        width={width}
+        height={height}
+        onWheel={logWheelEvent}
+      >
         {title && getTitle(title, margin)}
         <defs>
           <clipPath id="barclip">
             <rect
-              className="mainchart" 
+              className="mainchart"
               x={0}
               y={0}
-              width={width-margin.left-margin.right}
-              height={height-margin.top-margin.bottom} />
+              width={width - margin.left - margin.right}
+              height={height - margin.top - margin.bottom}
+            />
           </clipPath>
         </defs>
-        <g transform={`translate(${margin.left},${margin.top})`}
-           clipPath="url(#barclip)">
+        <g
+          transform={`translate(${margin.left},${margin.top})`}
+          clipPath="url(#barclip)"
+        >
           {bars}
           {tooltip}
         </g>
@@ -265,9 +268,9 @@ class BarChart extends React.Component {
           height={chartHeight}
           offset={10}
           tickArguments={[6]}
-          tickFormat={timeFormat('%d %b %y')}
+          tickFormat={timeFormat("%d %b %y")}
           margin={margin}
-      />
+        />
 
         <Axis
           orientation="left"
@@ -276,7 +279,7 @@ class BarChart extends React.Component {
           height={chartHeight}
           offset={10}
           margin={margin}
-        tickFormat={format('($.2f')}
+          tickFormat={format("($.2f")}
         />
 
         <Brush
@@ -302,12 +305,12 @@ BarChart.defaultProps = {
   margin: { top: 45, right: 20, bottom: 100, left: 80 },
   colorFunc: scaleOrdinal(schemeCategory20),
   onClick: function(e) {
-    console.info('clicked', e.target.id);
+    console.info("clicked", e.target.id);
   },
   hideToolTip: function() {},
   showToolTip: function() {},
-  selectedArea: '',
-  title: 'BarChart'
+  selectedArea: "",
+  title: "BarChart"
 };
 
 BarChart.propTypes = {
