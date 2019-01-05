@@ -21,6 +21,40 @@ function updateTransactions(transactions, payload) {
   });
 }
 
+const testLines = `Date31 May 18	Description
+WHITESPACE GLOBAL WHITESPACE
+Amount3,024.28	Balance not applicable
+Date31 May 18	Description
+WWW.GRAPETREE.CO.U 01384
+596001
+Amount-49.95	Balance3,784.14
+Date31 May 18	Description
+LUL TICKET MACHINE OVAL
+Amount-131.00	Balance not applicable
+Date01 Jun 18	Description
+POD LONDON
+EC1Y
+Amount-5.99	Balance3,778.15
+Date04 Jun 18	Description
+TESCO STORE 2764 LONDON
+Amount-57.82	Balance not applicable
+Date04 Jun 18	Description
+SAINSBURYS S/MKTS
+LONDON,CITY R
+Amount-1.65	Balance not applicable
+Date04 Jun 18	Description
+TESCO STORE 2764 LONDON
+Amount-22.30	Balance not applicable
+Date04 Jun 18	Description
+400118 91681826 INTERNET
+TRANSFER
+Amount-1,800.00	Balance1,896.38
+Date05 Jun 18	Description
+MAPLIN LIVERPL ST LIVERPOOL
+ST
+Amount-2.00	Balance1,894.38
+`;
+
 const ENTER_KEY_CODE = 13;
 
 class Upload extends React.Component {
@@ -29,7 +63,7 @@ class Upload extends React.Component {
     super(props);
 
     this.state = {
-      value: "",
+      value: testLines, // TOOD: remove testLines
       transactions: []
     };
 
@@ -42,6 +76,45 @@ class Upload extends React.Component {
   updateTransaction = payload => {
     const transactions = updateTransactions(this.state.transactions, payload);
     this.setState({ transactions });
+  };
+
+  fixBalance = () => {
+    let { transactions: _trs } = this.state;
+    console.log("fixBalance");
+
+    if (_trs.length < 2) return;
+    const first = new Date(_trs[0]);
+    const last = new Date(_trs[_trs.length - 1]);
+
+    let transactions = first < last ? _trs.slice() : _trs.slice().reverse();
+    let _missing = transactions.filter(tr => !tr.balance).length;
+    let _round = 0;
+    while (_missing && _round < 10) {
+      console.log(`fix round=${_round} missing=${_missing}`);
+      transactions = transactions.map(this._fixBalance);
+      _missing = transactions.filter(tr => !tr.balance).length;
+      _round += 1;
+    }
+
+    this.setState({ transactions });
+  };
+
+  _fixBalance = (tr, idx, transactions) => {
+    if (tr.balance) return tr;
+
+    if (idx > 0) {
+      const prev = transactions[idx - 1];
+      if (prev.balance) {
+        return { ...tr, balance: prev.balance + tr.amount };
+      }
+    } else if (idx < transactions.length - 2) {
+      const next = transactions[idx + 1];
+      if (next.balance) {
+        return { ...tr, balance: next.balance - next.amount };
+      }
+    }
+
+    return tr;
   };
 
   validate = () => {
@@ -101,8 +174,6 @@ class Upload extends React.Component {
   }
 
   render() {
-    console.log("render transactions:", this.state.transactions.length);
-
     if (!this.state.transactions.length) {
       return (
         <div className="upload">
@@ -119,6 +190,14 @@ class Upload extends React.Component {
               this.textInput = input;
             }}
           />
+          <div className="button-group">
+            <button
+              className="button-warning button"
+              onClick={() => this.validate()}
+            >
+              Parse
+            </button>
+          </div>
         </div>
       );
     } else {
@@ -133,6 +212,9 @@ class Upload extends React.Component {
             <TagsList />
           </div>
           <div className="button-group">
+            <button className="button" onClick={this.fixBalance}>
+              Fix Balance
+            </button>
             <button className="button-warning button" onClick={this.onCancel}>
               Cancel
             </button>
@@ -159,7 +241,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Upload);
+export default connect(mapStateToProps, mapDispatchToProps)(Upload);

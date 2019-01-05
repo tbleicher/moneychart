@@ -18,9 +18,11 @@ const dropTarget = {
     const data = component.props.data;
 
     const dataTags = data.tags || [];
+    console.log("old tags", dataTags);
     if (!dataTags.includes(item.label)) {
       const tags = mergeTags(dataTags, item.label);
       props.updateTransaction({ id: data.id, tags });
+      console.log("new tags", tags);
 
       return { id: data.id, label: item.label };
     }
@@ -101,7 +103,7 @@ TransactionRow.propTypes = {
     description: PropTypes.string,
     id: PropTypes.string.isRequired,
     selected: PropTypes.bool,
-    tags: PropTypes.array // TODO: isRequired
+    tags: PropTypes.array.isRequired
   }).isRequired,
   tagColorMap: PropTypes.object,
   onClick: PropTypes.func

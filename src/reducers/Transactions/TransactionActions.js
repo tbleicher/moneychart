@@ -12,7 +12,6 @@ import * as api from "./api";
 export const createTransaction = (accountId, data) => {
   return dispatch => {
     api.createTransaction(accountId, data).then(transaction => {
-      console.log("trans:", transaction);
       dispatch(addTransaction(transaction));
     });
   };
@@ -47,8 +46,6 @@ export function selectTransaction(id) {
 }
 
 export const setTransactions = transactions => {
-  console.log("ta.setTransactions", transactions.length);
-
   return {
     type: SET_TRANSACTIONS,
     payload: transactions

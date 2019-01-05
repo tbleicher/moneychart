@@ -9,15 +9,18 @@ class TransactionsTable extends React.Component {
   render() {
     const tagColorMap = new Map(this.props.tags.map(t => [t.label, t.color]));
 
-    const transactions = this.props.transactions.map((t, idx) => (
-      <TransactionRow
-        data={t}
-        key={t.id}
-        onClick={this.props.onClick}
-        updateTransaction={this.props.updateTransaction}
-        tagColorMap={tagColorMap}
-      />
-    ));
+    const transactions = this.props.transactions
+      .slice()
+      .sort((a, b) => a.date - b.date)
+      .map((t, idx) => (
+        <TransactionRow
+          data={t}
+          key={t.id}
+          onClick={this.props.onClick}
+          updateTransaction={this.props.updateTransaction}
+          tagColorMap={tagColorMap}
+        />
+      ));
 
     return (
       <table className="pure-table">

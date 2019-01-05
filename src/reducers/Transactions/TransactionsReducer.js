@@ -7,17 +7,13 @@ import {
   SET_TRANSACTIONS
 } from "./TransactionActionTypes";
 
-import { parseCSVLine } from "../../utils/TransactionParser";
 import { mergeTransactionLists } from "./utils";
 
 const transactionsList = (state = [], action) => {
   if (!action) return state;
 
-  console.log("debug", action);
   switch (action.type) {
     case ADD_TRANSACTION:
-      console.log("ADD_TRANSACTION", action.payload);
-      // const transaction = parseCSVLine(action.payload);
       return [...state, action.payload];
 
     case MERGE_TRANSACTIONS:
@@ -27,7 +23,6 @@ const transactionsList = (state = [], action) => {
       return state.filter(t => t.id !== action.payload);
 
     case SET_TRANSACTIONS:
-      console.log("SET_TRANSACTIONS", action.payload.length);
       return action.payload.slice();
 
     case SELECT_TRANSACTION:

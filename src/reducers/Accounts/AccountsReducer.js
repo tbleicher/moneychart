@@ -21,7 +21,6 @@ const mergeAccountsList = (state, update) => {
     return { ...sAcc, ...uAcc };
   });
 
-  console.log(JSON.stringify(newState.map(acc => acc.id), null, 2));
   return newState;
 };
 

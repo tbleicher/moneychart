@@ -1,39 +1,35 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import PropTypes from 'prop-types';
-import * as d3 from 'd3';
+import React from "react";
+import ReactDOM from "react-dom";
+import PropTypes from "prop-types";
 
-import './PieChart.css';
+import * as d3 from "d3";
+
+import "./PieChart.css";
 
 function transactions_summary(allTransactions) {
-  
   const transactions = allTransactions.filter(t => {
-    return t.credit === 0;
+    return t.amount < 0;
   });
 
   var tags = new Set(
-    transactions.map(function(t) {
+    transactions.map(t => {
       // tags[0] is undefined for untagged transactions
-      return t.tags.length 
-        ? t.tags[t.tags.length-1]
-        : 'other';
+      return [...t.tags, "other"][0];
     })
   );
 
-  let data = Array.from(tags).map(function(tag) {
-    let tagged = transactions.filter(function(t, idx, arr) {
+  let data = Array.from(tags).map(tag => {
+    let tagged = transactions.filter(t => {
       // undefined matches untagged transactions
-      return t.tags.length 
-        ? (t.tags[t.tags.length-1] === tag)
-        : 'other';
+      return t.tags.length ? t.tags[t.tags.length - 1] === tag : "other";
     });
-    let total = tagged.reduce(function(memo, t) {
-      return memo + t.debit;
+    let total = tagged.reduce((total, t) => {
+      return total + t.amount;
     }, 0);
 
     return {
       // replace undefined with display name
-      name: tag || 'other',
+      name: tag || "other",
       count: tagged.length,
       total: total
     };
@@ -51,7 +47,7 @@ function createChart(dom, props) {
 
   var data = transactions_summary(props.data);
   var tagColors = new Map(props.tags.map(t => [t.label, t.color]));
-  
+
   var sum = data.reduce(function(memo, num) {
     //return memo + num.count;
     return memo + num.total;
@@ -69,27 +65,25 @@ function createChart(dom, props) {
   var pieCentreX = margin.left + offsetX;
   var pieCentreY = margin.bottom + pieHeight / 2;
 
-  d3.select('.dashboard .piechart').remove();
+  d3.select(".dashboard .piechart").remove();
   var chart = d3
-    .select('.dashboard')
-    .append('svg')
-    .attr('class', 'piechart')
-    .attr('width', width)
-    .attr('height', height)
-    .append('g')
-    .attr('transform', 'translate(' + pieCentreX + ',' + pieCentreY + ')');
+    .select(".dashboard")
+    .append("svg")
+    .attr("class", "piechart")
+    .attr("width", width)
+    .attr("height", height)
+    .append("g")
+    .attr("transform", "translate(" + pieCentreX + "," + pieCentreY + ")");
 
-  d3.select('.piechart')
-    .append('text')
-    .attr('x', 20)
-    .attr('y', 20)
-    .attr('font-size', 20)
+  d3
+    .select(".piechart")
+    .append("text")
+    .attr("x", 20)
+    .attr("y", 20)
+    .attr("font-size", 20)
     .text(props.title);
 
-  var arc = d3
-    .arc()
-    .outerRadius(outerRadius)
-    .innerRadius(innerRadius);
+  var arc = d3.arc().outerRadius(outerRadius).innerRadius(innerRadius);
 
   var pie = d3.pie().value(function(d) {
     //return d.count;
@@ -97,74 +91,72 @@ function createChart(dom, props) {
   });
 
   var g = chart
-    .selectAll('.arc')
+    .selectAll(".arc")
     .data(pie(data))
     .enter()
-    .append('g')
-    .attr('class', 'arc')
-    .on('click', function(d) {
-      console.log('you clicked ' + d.data.name);
+    .append("g")
+    .attr("class", "arc")
+    .on("click", function(d) {
+      console.log("you clicked " + d.data.name);
     })
-    .on('mouseover', function(d, i) {
+    .on("mouseover", function(d, i) {
       d3
         .select(this)
         .transition()
-        .duration(200)
-        //.ease('bounce')
-        .attr('transform', function(d) {
+        .duration(200) //.ease('bounce')
+        .attr("transform", function(d) {
           var dist = 10;
           d.midAngle = (d.endAngle - d.startAngle) / 2 + d.startAngle;
           var x = Math.sin(d.midAngle) * dist;
           var y = -Math.cos(d.midAngle) * dist;
-          return 'translate(' + x + ',' + y + ')';
+          return "translate(" + x + "," + y + ")";
         });
 
       d3
         .select(this)
-        .append('text')
-        .style('fill', function(d) {
-          return tagColors.get(d.data.name) || '#969696';
+        .append("text")
+        .style("fill", function(d) {
+          return tagColors.get(d.data.name) || "#969696";
         })
-        .attr('id', 'percent')
-        .attr('transform', 'translate(0,-5)')
-        .attr('text-anchor', 'middle')
-        .attr('dy', '.35em')
-        .style('font', 'bold 15px Arial')
+        .attr("id", "percent")
+        .attr("transform", "translate(0,-5)")
+        .attr("text-anchor", "middle")
+        .attr("dy", ".35em")
+        .style("font", "bold 15px Arial")
         .text(function(d) {
-          return (d.value / sum * 100).toFixed(1) + ' %';
+          return (d.value / sum * 100).toFixed(1) + " %";
         });
       g
         .filter(function(e) {
           return e.value !== d.value;
         })
-        .style('opacity', 0.5);
+        .style("opacity", 0.5);
     })
-    .on('mouseout', function(d, i) {
+    .on("mouseout", function(d, i) {
       d3
         .select(this)
         .transition()
-        .duration(200)
-        //.ease('bounce')
-        .attr('transform', 'translate(0,0)');
-      d3.select('#percent').remove();
+        .duration(200) //.ease('bounce')
+        .attr("transform", "translate(0,0)");
+      d3.select("#percent").remove();
       g
         .filter(function(e) {
           return e.value !== d.value;
         })
-        .style('opacity', 1);
+        .style("opacity", 1);
     });
 
   g
-    .append('path')
-    .style('fill', function(d, i) {
-      return tagColors.get(d.data.name) || '#969696';
+    .append("path")
+    .style("fill", function(d, i) {
+      return tagColors.get(d.data.name) || "#969696";
     })
     .transition()
     .delay(function(d, i) {
       return i * 150;
     })
     .duration(200)
-    .attrTween('d', function(d) {
+    .attrTween("d", function(d) {
       var i = d3.interpolate(d.startAngle, d.endAngle);
       return function(t) {
         d.endAngle = i(t);
@@ -188,38 +180,38 @@ function createChart(dom, props) {
   var legendOffsetX = outerRadius + margin.left;
   var legendOffsetY = data.length * 10;
   var legend = chart
-    .selectAll('.legend')
+    .selectAll(".legend")
     .data(data)
     .enter()
-    .append('g')
-    .attr('class', 'legend')
-    .attr('transform', function(d, i) {
+    .append("g")
+    .attr("class", "legend")
+    .attr("transform", function(d, i) {
       var yOffset = legendOffsetY - (i + 1) * 20;
-      return 'translate(' + legendOffsetX + ',' + yOffset + ')';
+      return "translate(" + legendOffsetX + "," + yOffset + ")";
     });
 
   var rect = legend
-    .append('rect')
-    .attr('width', 15)
-    .attr('height', 15)
-    .style('fill', function(d, i) {
-      return tagColors.get(d.name) || '#969696';
+    .append("rect")
+    .attr("width", 15)
+    .attr("height", 15)
+    .style("fill", function(d, i) {
+      return tagColors.get(d.name) || "#969696";
     })
-    .style('opacity', 0);
+    .style("opacity", 0);
 
   var name = legend
-    .append('text')
-    .attr('x', 24)
-    .attr('y', 12)
+    .append("text")
+    .attr("x", 24)
+    .attr("y", 12)
     .text(function(d) {
       var text = d.name;
       if (text.length > 30) {
         text = text.substring(0, 26);
-        text += '...';
+        text += "...";
       }
       return text;
     })
-    .style('opacity', 0);
+    .style("opacity", 0);
 
   rect
     .transition()
@@ -227,7 +219,7 @@ function createChart(dom, props) {
       return i * 100;
     })
     .duration(150)
-    .style('opacity', 1);
+    .style("opacity", 1);
 
   name
     .transition()
@@ -235,7 +227,7 @@ function createChart(dom, props) {
       return i * 100;
     })
     .duration(150)
-    .style('opacity', 1);
+    .style("opacity", 1);
 }
 
 class PieChart extends React.Component {
@@ -272,7 +264,7 @@ PieChart.defaultProps = {
   tags: [],
   width: 300,
   height: 350,
-  title: '',
+  title: "",
   Legend: true,
   legendWidth: 100
 };

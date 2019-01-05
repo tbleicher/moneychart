@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+
 import {
   scaleLinear,
   scaleTime,
@@ -10,9 +11,11 @@ import { timeFormat } from "d3-time-format";
 import { nest } from "d3-collection";
 import { extent, format } from "d3";
 
-import Axis from "./Axis";
-import Brush from "./Brush";
-import ToolTip from "./ToolTip";
+import Axis from "../Axis";
+import Brush from "../Brush";
+import ToolTip from "../ToolTip";
+
+import Bar from "./Bar";
 
 import "./BarChart.css";
 
@@ -30,68 +33,8 @@ function logWheelEvent(e) {
   console.log(`delta: Y: ${e.deltaY}`);
 }
 
-function renderBar(d, xScale, yScale, hover = "", evtListeners = {}) {
-  const xDate = new Date(d.date.getTime() - 12 * 60 * 60 * 1000);
-  const dW =
-    xScale(new Date(d.date.getTime() + 12 * 60 * 60 * 1000)) - xScale(xDate);
-  const gap = 0.2 * dW > 10 ? 10 : 0.2 * dW;
-  const wDay = dW - gap;
-  const offset = d.perDay[0] * wDay / d.perDay[1];
-
-  const x = xScale(xDate) + gap / 2 + offset;
-  const y = d.credit === 0 ? yScale(d.balance + d.debit) : yScale(d.balance);
-  const w = wDay / d.perDay[1] > 1 ? wDay / d.perDay[1] : 1;
-  const h = d.credit === 0
-    ? yScale(d.balance) - yScale(d.balance + d.debit)
-    : yScale(d.balance) - yScale(d.balance + d.credit);
-
-  let opacity = 0.9;
-  if (hover !== "" && hover !== d.id) {
-    opacity = 0.5;
-  }
-  const style = {
-    fill: d.color,
-    // stroke: '#888',
-    opacity
-  };
-
-  const { onClick, onMouseEnter, onMouseLeave } = evtListeners;
-
-  return (
-    <rect
-      className="barchart bar"
-      key={d.id}
-      id={d.id}
-      x={x}
-      y={y}
-      width={w}
-      height={h}
-      style={style}
-      onClick={onClick}
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
-    />
-  );
-}
-
-function renderBars(
-  data,
-  chartWidth,
-  xScale,
-  yScale,
-  hover = "",
-  evtListeners = {}
-) {
-  if (!data.length) {
-    return null;
-  }
-
-  return data.map(d => renderBar(d, xScale, yScale, hover, evtListeners));
-}
-
 // extend range of transaction times by 12 hours left and right
 function getXDomain(data) {
-  console.log("data", data);
   const ex = extent(data.map(d => d.date || d.date));
   const start = new Date(ex[0].getTime() - 1000 * 60 * 60 * 12);
   const end = new Date(ex[1].getTime() + 1000 * 60 * 60 * 12);
@@ -102,6 +45,7 @@ function getXDomain(data) {
 class BarChart extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
       hover: "",
       ttX: 0,
@@ -110,17 +54,13 @@ class BarChart extends React.Component {
       selectionStart: null,
       selectionEnd: null
     };
-
-    this.onBrush = this.onBrush.bind(this);
-    this.onMouseEnter = this.onMouseEnter.bind(this);
-    this.onMouseLeave = this.onMouseLeave.bind(this);
   }
 
-  onBrush(low, high) {
+  onBrush = (low, high) => {
     this.setState({ selectionStart: low, selectionEnd: high });
-  }
+  };
 
-  onMouseEnter(evt) {
+  onMouseEnter = evt => {
     const x = evt.target.x.baseVal.value;
     const y = evt.target.y.baseVal.value;
     const width = evt.target.width.baseVal.value;
@@ -132,11 +72,11 @@ class BarChart extends React.Component {
       ttY: y + height / 2,
       ttOffset: width / 2 + 4
     });
-  }
+  };
 
-  onMouseLeave(evt) {
+  onMouseLeave = evt => {
     this.setState({ hover: "" });
-  }
+  };
 
   render() {
     const { data, tags, width, height, margin, title, onClick } = this.props;
@@ -156,28 +96,31 @@ class BarChart extends React.Component {
 
     nested.forEach(pair => {
       let n = pair.values.length;
-      let credits = pair.values.filter(t => t.credit !== 0);
+      let credits = pair.values.filter(t => t.amount > 0);
+
       if (credits.length === 0) {
         n = 1;
       }
+
       pair.values.forEach((v, i) => {
         if (n === 1) {
           v.perDay = [0, 1];
         } else {
           v.perDay = [i, n];
         }
+
         v.color = v.tags.length
           ? tagColors.get(v.tags[v.tags.length - 1])
           : "#cbcbcb";
       });
     });
 
+    const chartWidth = width - margin.left - margin.right;
+    const chartHeight = height - margin.top - margin.bottom;
+
     const displayData = data
       .filter(d => d.date >= selectionStart)
       .filter(d => d.date < selectionEnd);
-
-    const chartWidth = width - margin.left - margin.right;
-    const chartHeight = height - margin.top - margin.bottom;
 
     const xScale = scaleTime()
       .range([0, chartWidth])
@@ -188,19 +131,10 @@ class BarChart extends React.Component {
       .domain(getXDomain(data));
 
     const extY = extent(
-      data
-        .map(d => d.balance + d.debit)
-        .concat(data.map(d => d.balance - d.credit))
+      data.map(d => d.balance - d.amount).concat(data.map(d => d.balance))
     );
 
     const yScale = scaleLinear().range([chartHeight, 0]).domain(extY);
-    //   extent(
-    //     displayData
-    //       .map(d => d.balance + d.debit)
-    //       .concat(displayData.map(d => d.balance - d.credit))
-    //   )
-    // );
-
     const yScaleBrush = scaleLinear().range([40, 0]).domain(extY);
 
     const evtListeners = {
@@ -209,15 +143,19 @@ class BarChart extends React.Component {
       onMouseLeave: this.onMouseLeave
     };
 
-    const bars = renderBars(
-      displayData,
-      chartWidth,
-      xScale,
-      yScale,
-      this.state.hover,
-      evtListeners
-    );
-    const brushBars = renderBars(data, chartWidth, xScaleBrush, yScaleBrush);
+    const bars = displayData.map((_data, idx) => (
+      <Bar
+        key={idx}
+        data={_data}
+        xScale={xScale}
+        yScale={yScale}
+        hover={this.state.hover}
+        evtListeners={evtListeners}
+      />
+    ));
+    const brushBars = displayData.map((_data, idx) => (
+      <Bar key={idx} data={_data} xScale={xScaleBrush} yScale={yScaleBrush} />
+    ));
 
     const { hover, ttX, ttY, ttOffset } = this.state;
     const tooltip = this.props.data
@@ -304,11 +242,11 @@ BarChart.defaultProps = {
   height: 400,
   margin: { top: 45, right: 20, bottom: 100, left: 80 },
   colorFunc: scaleOrdinal(schemeCategory20),
-  onClick: function(e) {
-    console.info("clicked", e.target.id);
+  onClick: evt => {
+    console.info("clicked", evt.target.id);
   },
-  hideToolTip: function() {},
-  showToolTip: function() {},
+  hideToolTip: () => {},
+  showToolTip: () => {},
   selectedArea: "",
   title: "BarChart"
 };
