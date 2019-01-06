@@ -1,6 +1,8 @@
 import shortid from "shortid";
 import { TagPatterns } from "../testTagConfig";
 
+import customParser from "./CustomParser";
+
 function getTagsTree(tag) {
   return tag.split("::").map((t, idx, arr) => arr.slice(0, idx + 1).join("::"));
 }
@@ -84,6 +86,7 @@ function parseCSVLineSync(line) {
 const formatTransaction = t => {
   const { transactionDate, valueDate, reference, balance, description } = t;
   const tags = autoTagTransaction(description);
+
   const id = hashCode(
     JSON.stringify({
       transactionDate,
@@ -102,6 +105,7 @@ const formatTransaction = t => {
   }
 
   const transaction = {
+    ...t,
     transactionDate,
     valueDate,
     reference,
@@ -122,11 +126,11 @@ const linesToHSBCTransaction = lines => {
   }
 
   const _lines = lines.filter(line => line.trim());
-  console.log(lines);
 
   const date = parseHSBCDate(_lines[0].split("\t")[0]);
   const description = _lines.slice(1, _lines.length - 1).join(" ");
   const values = _lines[_lines.length - 1].split("\t");
+
   const amount = parseFloat(values[0].replace("Amount", "").replace(",", ""));
   const balance = parseFloat(values[1].replace("Balance", "").replace(",", ""));
 
@@ -135,7 +139,9 @@ const linesToHSBCTransaction = lines => {
   const t = {
     transactionDate: date,
     valueDate: date,
+    date,
     reference,
+    amount,
     debit: amount < 0 ? -1 * amount : 0,
     credit: amount > 0 ? amount : 0,
     balance,
@@ -146,6 +152,10 @@ const linesToHSBCTransaction = lines => {
 };
 
 const parseHSBC = text => {
+  if (text.startsWith("Date,Amount,Balance,")) {
+    return customParser(text).map(formatTransaction);
+  }
+
   return text
     .split(/\nDate/)
     .map(g => g.split("\n"))
@@ -154,7 +164,10 @@ const parseHSBC = text => {
 };
 
 const parseHSBCDate = s => {
-  return new Date(s.replace(/Date/, ""));
+  const str = s.replace(/Date/, "");
+  const date = new Date(str);
+
+  return date.toISOString();
 };
 
 const parseTransactionDate = s => {
