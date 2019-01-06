@@ -11,7 +11,7 @@ function mapStateToProps(state) {
   const account = state.accounts.find(account => account.selected);
 
   return {
-    transactions: state.transactions || [],
+    transactions: (account && account.transactions) || [],
     tags: (account && account.tags) || []
   };
 }
@@ -23,4 +23,7 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(TransactionsTable);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TransactionsTable);

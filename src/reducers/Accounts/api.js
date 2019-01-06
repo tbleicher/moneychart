@@ -44,6 +44,7 @@ export const loadAccount = id => {
 };
 
 export const loadAccounts = () => {
+  console.log("api.loadAccounts()");
   return fetch("/api/accounts")
     .then(response => {
       return response.json();

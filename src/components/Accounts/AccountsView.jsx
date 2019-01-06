@@ -12,8 +12,9 @@ class AccountsView extends React.Component {
   };
 
   componentDidMount() {
-    console.log("did mount => loadAccounts()");
-    this.props.loadAccounts();
+    if (this.props.accounts.length === 0) {
+      this.props.loadAccounts();
+    }
   }
 
   render() {

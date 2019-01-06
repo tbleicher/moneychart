@@ -1,3 +1,5 @@
+import { loadTransactions } from "../Transactions/api";
+
 import {
   ADD_ACCOUNT,
   DELETE_ACCOUNT,
@@ -7,6 +9,18 @@ import {
 } from "./AccountActionTypes";
 
 import * as api from "./api";
+
+const transactionsFromApi = fromApi => {
+  console.log("transactions:", fromApi.length);
+
+  const transactions = fromApi.map(tr => ({
+    ...tr,
+    date: new Date(tr.date),
+    tags: tr.tags || []
+  }));
+
+  return transactions;
+};
 
 export const addAccount = account => {
   return dispatch => {
@@ -52,20 +66,19 @@ export const loadAccount = id => {
         payload: { ...account, loaded: true, tags }
       });
 
-      const transactions = account.transactions.map(tr => ({
-        ...tr,
-        date: new Date(tr.date),
-        tags: tr.tags || []
-      }));
+      // load account transactions
+      loadTransactions(id)
+        .then(transactionsFromApi)
+        .then(transactions => {
+          dispatch({
+            type: UPDATE_ACCOUNT,
+            payload: { id, transactions }
+          });
+        });
 
       dispatch({
         type: SELECT_ACCOUNT,
         payload: id
-      });
-
-      dispatch({
-        type: "SET_TRANSACTIONS",
-        payload: transactions
       });
 
       dispatch({

@@ -1,17 +1,17 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { connect } from 'react-redux';
+import React from "react";
+import ReactDOM from "react-dom";
+import { connect } from "react-redux";
 
-import Section from '../Section'; 
-import { BarChart, PieChart } from '../charts';
+import Section from "../Section";
+import { BarChart, PieChart } from "../charts";
 
-import './Dashboard.css';
+import "./Dashboard.css";
 
 class Dashboard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      title: 'Overview',
+      title: "Overview",
       width: 900
     };
 
@@ -24,11 +24,11 @@ class Dashboard extends React.Component {
   }
 
   componentWillMount() {
-    window.addEventListener('resize', this.updateSizeListener);
+    window.addEventListener("resize", this.updateSizeListener);
   }
 
   componentWillUnmount() {
-    window.removeEventListener('resize', this.updateSizeListener);
+    window.removeEventListener("resize", this.updateSizeListener);
   }
 
   updateSize() {
@@ -46,10 +46,10 @@ class Dashboard extends React.Component {
     if (!this.props.transactions.length) {
       return (
         <section className="views">
-        <h2>{this.state.title}</h2>
-        <div className="dashboard">
-          <span>waiting for data</span>
-        </div>
+          <h2>{this.state.title}</h2>
+          <div className="dashboard">
+            <span>waiting for data</span>
+          </div>
         </section>
       );
     } else {
@@ -80,9 +80,11 @@ class Dashboard extends React.Component {
 }
 
 function mapStateToProps(state) {
+  const account = state.accounts.find(account => account.selected);
+
   return {
-    transactions: state.transactions,
-    tags: state.tags
+    transactions: (account && account.transactions) || [],
+    tags: (account && account.tags) || []
   };
 }
 
