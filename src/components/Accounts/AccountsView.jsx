@@ -24,6 +24,7 @@ class AccountsView extends React.Component {
         key={account.id}
         {...account}
         deleteAccount={() => this.props.deleteAccount(account.id)}
+        loadAccount={() => this.props.loadAccount(account.id)}
         selectAccount={() => this.props.selectAccount(account.id)}
       />
     ));

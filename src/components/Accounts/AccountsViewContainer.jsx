@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import {
   addAccount,
   deleteAccount,
+  loadAccount,
   loadAccounts,
   selectAccount
 } from "../../reducers/Accounts";
@@ -19,6 +20,7 @@ function mapDispatchToProps(dispatch) {
   return {
     addAccount: account => dispatch(addAccount(account)),
     deleteAccount: id => dispatch(deleteAccount(id)),
+    loadAccount: id => dispatch(loadAccount(id)),
     loadAccounts: () => dispatch(loadAccounts()),
     selectAccount: id => dispatch(selectAccount(id))
   };

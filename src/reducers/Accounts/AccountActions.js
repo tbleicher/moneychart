@@ -2,6 +2,7 @@ import {
   ADD_ACCOUNT,
   DELETE_ACCOUNT,
   LOAD_ACCOUNTS,
+  SELECT_ACCOUNT,
   UPDATE_ACCOUNT
 } from "./AccountActionTypes";
 
@@ -37,6 +38,44 @@ export const deleteAccount = id => {
   };
 };
 
+export const loadAccount = id => {
+  return dispatch => {
+    api.loadAccount(id).then(account => {
+      const tags = [
+        { color: "#ff0000", id: "_red_", label: "red" },
+        { color: "#009933", id: "_green_", label: "green" },
+        { color: "#99cc00", id: "_green_sub_", label: "green::sub" }
+      ];
+
+      dispatch({
+        type: UPDATE_ACCOUNT,
+        payload: { ...account, loaded: true, tags }
+      });
+
+      const transactions = account.transactions.map(tr => ({
+        ...tr,
+        date: new Date(tr.date),
+        tags: tr.tags || []
+      }));
+
+      dispatch({
+        type: SELECT_ACCOUNT,
+        payload: id
+      });
+
+      dispatch({
+        type: "SET_TRANSACTIONS",
+        payload: transactions
+      });
+
+      dispatch({
+        type: "SET_TAGS",
+        payload: tags
+      });
+    });
+  };
+};
+
 export const loadAccounts = () => {
   return function(dispatch) {
     api.loadAccounts().then(data => {
@@ -54,33 +93,9 @@ export const loadAccounts = () => {
 
 export const selectAccount = id => {
   return dispatch => {
-    api.loadAccount(id).then(account => {
-      const tags = [
-        { color: "#ff0000", id: "_red_", label: "red" },
-        { color: "#009933", id: "_green_", label: "green" },
-        { color: "#99cc00", id: "_green_sub_", label: "green::sub" }
-      ];
-
-      dispatch({
-        type: UPDATE_ACCOUNT,
-        payload: { ...account, tags, selected: true }
-      });
-
-      const transactions = account.transactions.map(tr => ({
-        ...tr,
-        date: new Date(tr.date),
-        tags: tr.tags || []
-      }));
-
-      dispatch({
-        type: "SET_TRANSACTIONS",
-        payload: transactions
-      });
-
-      dispatch({
-        type: "SET_TAGS",
-        payload: tags
-      });
+    dispatch({
+      type: SELECT_ACCOUNT,
+      payload: id
     });
   };
 };

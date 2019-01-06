@@ -51,6 +51,7 @@ const AccountsListReducer = (state = [], action) => {
 
     case UPDATE_ACCOUNT:
       console.log("UPDATE_ACCOUNT", action);
+      console.log(action.payload);
       return state.map(account => {
         if (account.id === action.payload.id) {
           return { ...account, ...action.payload };

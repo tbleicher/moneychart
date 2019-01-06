@@ -12,12 +12,16 @@ function formatDate(d) {
 
 const renderControls = props => {
   const button = props.selected ? (
-    <button disabled className="button button-disabled">
+    <button disabled className="button button-success">
       active
     </button>
-  ) : (
-    <button className="button button-success" onClick={props.selectAccount}>
+  ) : props.loaded ? (
+    <button className="button button-link" onClick={props.selectAccount}>
       select
+    </button>
+  ) : (
+    <button className="button button-link" onClick={props.loadAccount}>
+      load
     </button>
   );
 
@@ -77,8 +81,10 @@ Account.propTypes = {
   number: PropTypes.string.isRequired,
   fromDate: PropTypes.object,
   id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-  selectAccount: PropTypes.func.isRequired,
   deleteAccount: PropTypes.func.isRequired,
+  loaded: PropTypes.bool,
+  loadAccount: PropTypes.func.isRequired,
+  selectAccount: PropTypes.func.isRequired,
   selected: PropTypes.bool,
   transactions: PropTypes.array.isRequired,
   toDate: PropTypes.object,

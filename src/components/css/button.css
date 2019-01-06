@@ -9,6 +9,20 @@
   cursor: pointer;
 }
 
+.button-link {
+  font-family: inherit;
+  font-weight: bold;
+  font-size: 100%;
+  text-decoration: none;
+  padding: 0.3em 1em;
+  background-color: #fff;
+  color: rgb(28, 184, 65);
+  cursor: pointer;
+}
+.button-link:hover {
+  text-decoration: underline;
+}
+
 .button-outline {
   font-family: inherit;
   font-weight: bold;
