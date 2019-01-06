@@ -3,7 +3,9 @@ export const createTag = (account_id, tag) => {
   console.log("     acc:", account_id);
   const { label, color } = tag;
 
-  return;
+  // TODO: remove temp code
+  return Promise.resolve(tag);
+
   return fetch(`/api/account/${account_id}/tags`, {
     method: "POST",
     body: JSON.stringify({ label, color }),
