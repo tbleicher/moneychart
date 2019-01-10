@@ -29,7 +29,7 @@ class TransactionInput extends React.Component {
       amount: Math.round(Math.random() * 100, 2),
       balance: Math.round(Math.random() * 100, 2)
     };
-    console.log(transaction);
+    
     this.setState({ ...transaction });
   };
 
@@ -54,14 +54,16 @@ class TransactionInput extends React.Component {
           <input
             className="valueInput"
             id="_amount"
+            type="number"
             value={this.state.amount}
-            onChange={evt => this.setState({ amount: evt.target.value })}
+            onChange={evt => this.setState({ amount: parseFloat(evt.target.value) })}
           />
           <input
             className="valueInput"
             id="_balance"
+            type="number"
             value={this.state.balance}
-            onChange={evt => this.setState({ balance: evt.target.value })}
+            onChange={evt => this.setState({ balance: parseFloat(evt.target.value) })}
           />
 
         </div>
