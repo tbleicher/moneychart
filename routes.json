@@ -1,6 +1,6 @@
 {
-    "/api/account/:accountId": "/accounts/:accountId",
-    "/api/account/:accountId/tags": "/tags?account=:accountId",
-    "/api/account/:accountId/transactions": "/transactions?account=:accountId",
-    "/api/*": "/$1"
+  "/api/account/:accountId": "/accounts/:accountId",
+  "/api/account/:accountId/tags": "/tags?accountId=:accountId",
+  "/api/account/:accountId/transactions": "/transactions?accountId=:accountId",
+  "/api/*": "/$1"
 }
