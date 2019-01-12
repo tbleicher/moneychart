@@ -23,6 +23,7 @@ const transactionsList = (state = [], action) => {
       return state.filter(t => t.id !== action.payload);
 
     case SET_TRANSACTIONS:
+      console.log("SET_TRANSACTIONS", action.payload.length);
       return action.payload.slice();
 
     case SELECT_TRANSACTION:
@@ -37,6 +38,7 @@ const transactionsList = (state = [], action) => {
       });
 
     case UPDATE_TRANSACTION:
+      console.log("UPDATE_TRANSACTION", action.payload);
       return state.map(t => {
         return t.id === action.payload.id ? { ...t, ...action.payload } : t;
       });
