@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import { connect } from "react-redux";
 
 import Section from "../Section";
-import { BarChart, PieChart } from "../charts";
+import { ChartContainer, PieChart } from "../charts";
 
 import "./Dashboard.css";
 
@@ -59,8 +59,9 @@ class Dashboard extends React.Component {
       return (
         <Section title="Overview">
           <div className="dashboard">
-            <BarChart
+            <ChartContainer
               title="Bar Chart"
+              accounts={this.props.accounts}
               data={this.props.transactions}
               tags={this.props.tags}
               width={barWidth}
@@ -81,6 +82,7 @@ class Dashboard extends React.Component {
 
 function mapStateToProps(state) {
   return {
+    accounts: state.accounts,
     tags: state.tags,
     transactions: state.transactions
   };
