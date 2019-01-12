@@ -23,16 +23,17 @@ const TagsListReducer = (state = [], action) => {
     case SELECT_TAG:
       return state.map(tag => {
         if (tag.id === action.payload) {
-          return Object.assign({}, tag, { selected: true });
+          return { ...tag, selected: true };
         } else if (tag.selected) {
-          return Object.assign({}, tag, { selected: false });
+          return { ...tag, selected: false };
         } else {
           return tag;
         }
       });
 
     case SET_TAGS:
-      return action.payload.slice();
+      console.log("SET_TAGS", action.payload.length);
+      return [...action.payload];
 
     case UPDATE_TAG:
       return state.map(tag => {

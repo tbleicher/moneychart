@@ -17,33 +17,33 @@ export const createTransaction = (accountId, data) => {
   };
 };
 
-export function addTransaction(transaction) {
+export const addTransaction = transaction => {
   return {
     type: ADD_TRANSACTION,
     payload: transaction
   };
-}
+};
 
-export function mergeTransactions(arr) {
+export const mergeTransactions = arr => {
   return {
     type: MERGE_TRANSACTIONS,
     payload: arr
   };
-}
+};
 
-export function removeTransaction(id) {
+export const removeTransaction = id => {
   return {
     type: REMOVE_TRANSACTION,
     payload: id
   };
-}
+};
 
-export function selectTransaction(id) {
+export const selectTransaction = id => {
   return {
     type: SELECT_TRANSACTION,
     payload: id
   };
-}
+};
 
 export const setTransactions = transactions => {
   return {
@@ -52,9 +52,9 @@ export const setTransactions = transactions => {
   };
 };
 
-export function updateTransaction(t) {
+export const updateTransaction = data => {
   return {
     type: UPDATE_TRANSACTION,
-    payload: t
+    payload: data
   };
-}
+};
