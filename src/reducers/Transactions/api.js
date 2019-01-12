@@ -3,7 +3,7 @@ export const createTransaction = (accountId, transaction) => {
 
   return fetch(`/api/account/${accountId}/transactions`, {
     method: "POST",
-    body: JSON.stringify(transaction),
+    body: JSON.stringify({ ...transaction, accountId }),
     headers: {
       "Content-Type": "application/json"
     }
@@ -17,8 +17,9 @@ export const createTransaction = (accountId, transaction) => {
     }));
 };
 
-export const loadTransactions = account_id => {
-  return fetch(`/api/account/${account_id}/transactions`)
+export const loadTransactions = accountId => {
+  console.log(`/api/account/${accountId}/transactions`);
+  return fetch(`/api/account/${accountId}/transactions`)
     .then(response => {
       const json = response.json();
 
