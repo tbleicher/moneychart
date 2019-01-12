@@ -7,12 +7,11 @@ import {
   SELECT_ACCOUNT,
   UPDATE_ACCOUNT
 } from "./AccountActionTypes";
+import { SET_TRANSACTIONS } from "../Transactions";
 
 import * as api from "./api";
 
 const transactionsFromApi = fromApi => {
-  console.log("transactions:", fromApi.length);
-
   const transactions = fromApi.map(tr => ({
     ...tr,
     date: new Date(tr.date),
@@ -74,6 +73,10 @@ export const loadAccount = id => {
             type: UPDATE_ACCOUNT,
             payload: { id, transactions }
           });
+          dispatch({
+            type: SET_TRANSACTIONS,
+            payload: transactions
+          });
         });
 
       dispatch({
@@ -109,6 +112,15 @@ export const selectAccount = id => {
     dispatch({
       type: SELECT_ACCOUNT,
       payload: id
+    });
+  };
+};
+
+export const updateAccount = data => {
+  return dispatch => {
+    dispatch({
+      type: UPDATE_ACCOUNT,
+      payload: data
     });
   };
 };

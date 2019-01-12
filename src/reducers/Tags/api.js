@@ -1,14 +1,11 @@
-export const createTag = (account_id, tag) => {
+export const createTag = (accountId, tag) => {
   console.log("TEST TAG:", JSON.stringify(tag, null, 8));
-  console.log("     acc:", account_id);
+  console.log("     acc:", accountId);
   const { label, color } = tag;
 
-  // TODO: remove temp code
-  return Promise.resolve(tag);
-
-  return fetch(`/api/account/${account_id}/tags`, {
+  return fetch(`/api/account/${accountId}/tags`, {
     method: "POST",
-    body: JSON.stringify({ label, color }),
+    body: JSON.stringify({ accountId, label, color }),
     headers: {
       "Content-Type": "application/json"
     }
@@ -21,8 +18,8 @@ export const createTag = (account_id, tag) => {
     }));
 };
 
-export const loadTags = account_id => {
-  return fetch(`/api/account/${account_id}/tags`)
+export const loadTags = accountId => {
+  return fetch(`/api/account/${accountId}/tags`)
     .then(response => {
       return response.json();
     })
