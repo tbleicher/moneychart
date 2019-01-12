@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
+import { curveStepAfter, extent, format } from "d3";
 import {
   scaleLinear,
   scaleTime,
@@ -9,7 +10,7 @@ import {
 } from "d3-scale";
 import { timeFormat } from "d3-time-format";
 import { nest } from "d3-collection";
-import { extent, format } from "d3";
+import { area, line } from "d3-shape";
 
 import Axis from "../Axis";
 import Brush from "../Brush";
@@ -35,7 +36,7 @@ function logWheelEvent(e) {
 
 // extend range of transaction times by 12 hours left and right
 function getXDomain(data) {
-  const ex = extent(data.map(d => d.date || d.date));
+  const ex = extent(data.map(d => d.date));
   const start = new Date(ex[0].getTime() - 1000 * 60 * 60 * 12);
   const end = new Date(ex[1].getTime() + 1000 * 60 * 60 * 12);
 
@@ -121,6 +122,8 @@ class BarChart extends React.Component {
     const displayData = data
       .filter(d => d.date >= selectionStart)
       .filter(d => d.date < selectionEnd);
+    // sort data for line chart
+    displayData.sort((a, b) => a.date - b.date);
 
     const xScale = scaleTime()
       .range([0, chartWidth])
@@ -134,14 +137,32 @@ class BarChart extends React.Component {
       data.map(d => d.balance - d.amount).concat(data.map(d => d.balance))
     );
 
-    const yScale = scaleLinear().range([chartHeight, 0]).domain(extY);
-    const yScaleBrush = scaleLinear().range([40, 0]).domain(extY);
+    const yScale = scaleLinear()
+      .range([chartHeight, 0])
+      .domain(extY);
+    const yScaleBrush = scaleLinear()
+      .range([40, 0])
+      .domain(extY);
 
     const evtListeners = {
       onClick,
       onMouseEnter: this.onMouseEnter,
       onMouseLeave: this.onMouseLeave
     };
+
+    const lineChart = line()
+      .x(d => xScale(d.date))
+      .y(d => yScale(d.balance))
+      .curve(curveStepAfter);
+
+    const areaChart = area()
+      .x(d => xScale(d.date))
+      .y1(d => yScale(d.balance))
+      .curve(curveStepAfter)
+      .y0(yScale(0));
+
+    const areaString = areaChart(displayData);
+    const pathString = lineChart(displayData);
 
     const bars = displayData.map((_data, idx) => (
       <Bar
@@ -197,6 +218,19 @@ class BarChart extends React.Component {
         >
           {bars}
           {tooltip}
+          <path
+            d={areaString}
+            style={{
+              fill: "yellow",
+              fillOpacity: 0.5,
+              stroke: "none",
+              strokeWidth: "3px"
+            }}
+          />
+          <path
+            d={pathString}
+            style={{ fill: "none", stroke: "#a00", strokeWidth: "3px" }}
+          />
         </g>
 
         <Axis
