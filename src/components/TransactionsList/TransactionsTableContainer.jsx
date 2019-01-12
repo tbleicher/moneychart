@@ -8,11 +8,9 @@ import {
 import TransactionsTable from "./TransactionsTable";
 
 function mapStateToProps(state) {
-  const account = state.accounts.find(account => account.selected);
-
   return {
-    transactions: (account && account.transactions) || [],
-    tags: (account && account.tags) || []
+    tags: state.tags,
+    transactions: state.transactions
   };
 }
 
