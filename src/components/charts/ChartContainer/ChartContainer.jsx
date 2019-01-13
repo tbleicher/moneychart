@@ -99,6 +99,8 @@ const nestData = (data, tagColors) => {
 
 // extend range of transaction times by 12 hours left and right
 function getXDomain(data) {
+  if (!data.length) return [new Date(), new Date()];
+
   const ex = extent(data.map(d => d.date));
   const start = new Date(ex[0].getTime() - 1000 * 60 * 60 * 12);
   const end = new Date(ex[1].getTime() + 1000 * 60 * 60 * 12);
