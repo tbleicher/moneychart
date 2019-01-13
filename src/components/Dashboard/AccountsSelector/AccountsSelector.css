@@ -1,0 +1,22 @@
+.account-selector {
+  margin-left: 20px;
+  margin-bottom: 20px;
+  display: flex;
+}
+
+.account-selector input {
+  position: relative;
+  top: 2px;
+}
+
+.account-selector span {
+  display: flex;
+  margin-right: 20px;
+  border: 1px solid #ccc;
+  padding: 5px 10px;
+}
+
+.account-selector span:hover {
+  background: #eee;
+  cursor: pointer;
+}
