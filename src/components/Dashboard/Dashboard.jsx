@@ -1,11 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { connect } from "react-redux";
 
 import Section from "../Section";
 import { ChartContainer, PieChart } from "../charts";
 
 import "./Dashboard.css";
+import AccountsSelector from "./AccountsSelector";
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -40,10 +40,28 @@ class Dashboard extends React.Component {
     this.updateSize();
   }
 
+  renderSelector = () => {
+    const { accounts } = this.props;
+
+    return (
+      <div className="account-selector">
+        {accounts.map(acc => (
+          <span key={acc.id}>
+            <input type="checkbox" name="checkbox" id={acc.id} value="value" />
+            <label htmlFor={acc.id}>{acc.name}</label>
+          </span>
+        ))}
+      </div>
+    );
+  };
+
   render() {
     const height = 400;
+    const pieWidth = 340;
+    const barWidth = this.state.width - pieWidth - 60;
+    const selected = this.props.accounts.find(acc => acc.selected);
 
-    if (!this.props.transactions.length) {
+    if (!this.props.accounts.length) {
       return (
         <section className="views">
           <h2>{this.state.title}</h2>
@@ -52,18 +70,18 @@ class Dashboard extends React.Component {
           </div>
         </section>
       );
-    } else {
-      const pieWidth = 340;
-      const barWidth = this.state.width - pieWidth - 60;
+    }
 
-      return (
-        <Section title="Overview">
-          <div className="dashboard">
+    return (
+      <Section title="Overview">
+        <AccountsSelector />
+        <div className="dashboard">
+          <div>
             <ChartContainer
               title="Bar Chart"
               accounts={this.props.accounts}
-              data={this.props.transactions}
-              tags={this.props.tags}
+              data={selected ? selected.transactions : []}
+              tags={selected ? selected.tags : []}
               width={barWidth}
               height={height}
             />
@@ -74,18 +92,10 @@ class Dashboard extends React.Component {
               width={pieWidth}
             />
           </div>
-        </Section>
-      );
-    }
+        </div>
+      </Section>
+    );
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    accounts: state.accounts,
-    tags: state.tags,
-    transactions: state.transactions
-  };
-}
-
-export default connect(mapStateToProps)(Dashboard);
+export default Dashboard;

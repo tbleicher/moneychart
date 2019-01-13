@@ -1,17 +1,13 @@
-import React from 'react';
-import Dashboard from './Dashboard';
-
-//import './Dashboard.css';
-
+import React from "react";
+import DashboardContainer from "./DashboardContainer";
 
 export default class DashboardView extends React.Component {
-
   render() {
     return (
       <div>
-        <section className='views'>
+        <section className="views">
           <h1>Dashboard</h1>
-          <Dashboard />
+          <DashboardContainer />
         </section>
       </div>
     );
