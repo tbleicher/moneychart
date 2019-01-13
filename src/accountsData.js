@@ -79,14 +79,6 @@ export const transactions = [
 
 export const transactions2 = [
   {
-    id: "FWK_jH5",
-    accountId: ACCOUNT_ID_2,
-    amount: 20,
-    balance: 20,
-    date: "2018-09-09T00:00:00.000Z",
-    description: ""
-  },
-  {
     amount: 5,
     balance: 25,
     date: "2018-09-10T00:00:00.000Z",
@@ -119,15 +111,7 @@ export const transactions2 = [
     id: "l-Bfp_D"
   },
   {
-    amount: 35,
-    accountId: ACCOUNT_ID_2,
-    balance: 40,
-    date: "2018-09-16T00:00:00.000Z",
-    description: "Wordbound Books",
-    id: "by7kQD1"
-  },
-  {
-    amount: -10,
+    amount: 25,
     accountId: ACCOUNT_ID_2,
     balance: 30,
     date: "2018-09-18T00:00:00.000Z",
@@ -167,16 +151,20 @@ export const ACCOUNTS = [
   {
     name: "sample",
     id: ACCOUNT_ID_1,
-    transactions: TRANSACTIONS,
+    color: "#0a0",
+    display: true,
+    selected: true,
     tags: [],
-    selected: true
+    transactions: TRANSACTIONS
   },
   {
     name: "other",
     id: ACCOUNT_ID_2,
-    transactions: TRANSACTIONS2,
+    color: "#00a",
+    display: true,
+    selected: false,
     tags: [],
-    selected: false
+    transactions: TRANSACTIONS2
   }
 ];
 

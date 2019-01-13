@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { PropTypes } from "prop-types";
 
 import Section from "../Section";
 import { ChartContainer, PieChart } from "../charts";
@@ -8,6 +9,14 @@ import "./Dashboard.css";
 import AccountsSelector from "./AccountsSelector";
 
 class Dashboard extends React.Component {
+  static propTypes = {
+    accounts: PropTypes.array.isRequired
+  };
+
+  static defaultProps = {
+    accounts: []
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -59,6 +68,8 @@ class Dashboard extends React.Component {
     const height = 400;
     const pieWidth = 340;
     const barWidth = this.state.width - pieWidth - 60;
+
+    const accounts = this.props.accounts.filter(acc => acc.display);
     const selected = this.props.accounts.find(acc => acc.selected);
 
     if (!this.props.accounts.length) {
@@ -79,7 +90,7 @@ class Dashboard extends React.Component {
           <div>
             <ChartContainer
               title="Bar Chart"
-              accounts={this.props.accounts}
+              accounts={accounts}
               data={selected ? selected.transactions : []}
               tags={selected ? selected.tags : []}
               width={barWidth}

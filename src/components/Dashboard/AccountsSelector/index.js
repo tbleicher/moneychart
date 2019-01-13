@@ -1,6 +1,6 @@
 import { connect } from "react-redux";
 
-import { selectAccount } from "../../../reducers/Accounts";
+import { updateAccount } from "../../../reducers/Accounts";
 import AccountsSelector from "./AccountsSelector";
 
 function mapStateToProps(state) {
@@ -11,7 +11,7 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = dispatch => {
   return {
-    selectAccount: id => dispatch(selectAccount(id))
+    updateAccount: id => dispatch(updateAccount(id))
   };
 };
 
