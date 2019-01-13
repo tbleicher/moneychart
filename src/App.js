@@ -6,6 +6,7 @@ import { DragDropContext } from "react-dnd";
 
 import AccountsView from "./components/Accounts";
 import AccountHeader from "./components/AccountHeader";
+import ChartContainer from "./components/charts/ChartContainer";
 import Dashboard from "./components/Dashboard";
 import Navigation from "./components/Navigation";
 
@@ -24,6 +25,7 @@ class App extends Component {
           <AccountHeader />
           <div className="App-body">
             <Route exact path="/" component={AccountsView} />
+            <Route path="/chart" component={ChartContainer} />
             <Route path="/dashboard" component={Dashboard} />
             <Route path="/transactions" component={TransactionsListView} />
             <Route path="/upload" component={UploadView} />
