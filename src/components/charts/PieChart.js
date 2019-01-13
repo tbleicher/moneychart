@@ -75,15 +75,17 @@ function createChart(dom, props) {
     .append("g")
     .attr("transform", "translate(" + pieCentreX + "," + pieCentreY + ")");
 
-  d3
-    .select(".piechart")
+  d3.select(".piechart")
     .append("text")
     .attr("x", 20)
     .attr("y", 20)
     .attr("font-size", 20)
     .text(props.title);
 
-  var arc = d3.arc().outerRadius(outerRadius).innerRadius(innerRadius);
+  var arc = d3
+    .arc()
+    .outerRadius(outerRadius)
+    .innerRadius(innerRadius);
 
   var pie = d3.pie().value(function(d) {
     //return d.count;
@@ -100,8 +102,7 @@ function createChart(dom, props) {
       console.log("you clicked " + d.data.name);
     })
     .on("mouseover", function(d, i) {
-      d3
-        .select(this)
+      d3.select(this)
         .transition()
         .duration(200) //.ease('bounce')
         .attr("transform", function(d) {
@@ -112,8 +113,7 @@ function createChart(dom, props) {
           return "translate(" + x + "," + y + ")";
         });
 
-      d3
-        .select(this)
+      d3.select(this)
         .append("text")
         .style("fill", function(d) {
           return tagColors.get(d.data.name) || "#969696";
@@ -124,30 +124,24 @@ function createChart(dom, props) {
         .attr("dy", ".35em")
         .style("font", "bold 15px Arial")
         .text(function(d) {
-          return (d.value / sum * 100).toFixed(1) + " %";
+          return ((d.value / sum) * 100).toFixed(1) + " %";
         });
-      g
-        .filter(function(e) {
-          return e.value !== d.value;
-        })
-        .style("opacity", 0.5);
+      g.filter(function(e) {
+        return e.value !== d.value;
+      }).style("opacity", 0.5);
     })
     .on("mouseout", function(d, i) {
-      d3
-        .select(this)
+      d3.select(this)
         .transition()
         .duration(200) //.ease('bounce')
         .attr("transform", "translate(0,0)");
       d3.select("#percent").remove();
-      g
-        .filter(function(e) {
-          return e.value !== d.value;
-        })
-        .style("opacity", 1);
+      g.filter(function(e) {
+        return e.value !== d.value;
+      }).style("opacity", 1);
     });
 
-  g
-    .append("path")
+  g.append("path")
     .style("fill", function(d, i) {
       return tagColors.get(d.data.name) || "#969696";
     })
