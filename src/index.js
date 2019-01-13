@@ -12,7 +12,11 @@ import App from "./App";
 import registerServiceWorker from "./registerServiceWorker";
 
 import rootReducer from "./rootReducer";
-const testData = {};
+import accounts from "./accountsData";
+
+const testData = {
+  accounts
+};
 
 const history = createHistory();
 const routerMW = routerMiddleware(history);
