@@ -108,7 +108,7 @@ export const transactions2 = [
     amount: -20,
     accountId: ACCOUNT_ID_2,
     balance: 5,
-    date: "2018-09-15T00:00:00.000Z",
+    date: "2018-09-16T00:00:00.000Z",
     description: "",
     id: "l-Bfp_D"
   },

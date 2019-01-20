@@ -10,10 +10,12 @@ const Bar = props => {
   const dW = xScale(new Date(data.date.getTime() + _12H)) - xScale(xDate);
   const gap = 0.2 * dW > 10 ? 10 : 0.2 * dW;
   const wDay = dW - gap;
-  const offset = data.perDay[0] * wDay / data.perDay[1];
+  // const offset = (data.perDay[0] * wDay) / data.perDay[1];
+  const offset = 0;
 
   const x = xScale(xDate) + gap / 2 + offset;
-  const w = wDay / data.perDay[1] > 1 ? wDay / data.perDay[1] : 1;
+  // const w = wDay / data.perDay[1] > 1 ? wDay / data.perDay[1] : 1;
+  const w = wDay;
 
   const y1 = yScale(Math.min(data.balance, data.balance - data.amount));
   const y2 = yScale(Math.max(data.balance, data.balance - data.amount));
@@ -27,7 +29,7 @@ const Bar = props => {
   }
 
   const style = {
-    fill: data.color,
+    fill: data.color || "#cbcbcb",
     opacity
   };
 

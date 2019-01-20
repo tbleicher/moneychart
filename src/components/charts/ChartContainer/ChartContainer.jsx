@@ -22,7 +22,22 @@ import { getXDomain, getYDomain, nestData } from "./utils";
 
 import "./ChartContainer.css";
 
-function getTitle(title, margin, size = 20, offset = 10) {
+const clampData = (accounts, selectionStart, selectionEnd) => {
+  if (accounts.length !== 1) return [];
+
+  const displayData = !selectionStart
+    ? [...accounts[0].transactions]
+    : accounts[0].transactions
+        .filter(d => d.date >= selectionStart)
+        .filter(d => d.date < selectionEnd);
+
+  // sort data for line chart
+  displayData.sort((a, b) => a.date - b.date);
+
+  return displayData;
+};
+
+const getTitle = (title, margin, size = 20, offset = 10) => {
   const x = 20;
   const y = size;
   return (
@@ -30,11 +45,11 @@ function getTitle(title, margin, size = 20, offset = 10) {
       {title}
     </text>
   );
-}
+};
 
-function logWheelEvent(e) {
+const logWheelEvent = e => {
   console.log(`delta: Y: ${e.deltaY}`);
-}
+};
 
 const getChartSize = ({ height, margin, width }) => {
   const chartWidth = width - margin.left - margin.right;
@@ -64,8 +79,7 @@ class ChartContainer extends React.Component {
 
     const { chartWidth, chartHeight } = getChartSize(props);
 
-    const displayData = props.data ? [...props.data] : [];
-    displayData.sort((a, b) => a.date - b.date);
+    const displayData = clampData(props.accounts);
 
     this.state = {
       displayData,
@@ -82,6 +96,18 @@ class ChartContainer extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     const { chartWidth, chartHeight } = getChartSize(nextProps);
+
+    // update displayData for a single selected account
+    if (nextProps.accounts !== this.props.accounts) {
+      const { selectionStart, selectionEnd } = this.state;
+      const displayData = clampData(
+        nextProps.accounts,
+        selectionStart,
+        selectionEnd
+      );
+
+      this.setState({ displayData });
+    }
 
     if (!this.state.xScale || nextProps.data !== this.props.data) {
       const [xScale, yScale] = getScales(
@@ -113,13 +139,9 @@ class ChartContainer extends React.Component {
   };
 
   onBrush = (selectionStart, selectionEnd) => {
-    const { data } = this.props;
+    const { accounts } = this.props;
 
-    const displayData = data
-      .filter(d => d.date >= selectionStart)
-      .filter(d => d.date < selectionEnd);
-    // sort data for line chart
-    displayData.sort((a, b) => a.date - b.date);
+    const displayData = clampData(accounts, selectionStart, selectionEnd);
 
     const xScale = scaleTime()
       .range([0, this.state.chartWidth])
@@ -326,7 +348,6 @@ ChartContainer.defaultProps = {
   },
   hideToolTip: () => {},
   showToolTip: () => {},
-  selectedArea: "",
   tags: [],
   title: "ChartContainer"
 };
@@ -345,7 +366,6 @@ ChartContainer.propTypes = {
   onClick: PropTypes.func,
   hideToolTip: PropTypes.func,
   showToolTip: PropTypes.func,
-  selectedArea: PropTypes.string,
   title: PropTypes.string
 };
 
