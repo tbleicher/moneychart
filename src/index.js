@@ -14,8 +14,11 @@ import registerServiceWorker from "./registerServiceWorker";
 import rootReducer from "./rootReducer";
 import accounts from "./accountsData";
 
+const _acc = accounts.find(acc => acc.selected);
 const testData = {
-  accounts
+  accounts,
+  tags: _acc ? _acc.tags : [],
+  transactions: _acc ? _acc.transactions : []
 };
 
 const history = createHistory();

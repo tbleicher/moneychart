@@ -9,7 +9,8 @@ export const transactions = [
     amount: 12.34,
     balance: 12.34,
     date: "2018-09-09T00:00:00.000Z",
-    description: ""
+    description: "",
+    tags: ["red", "yellow"]
   },
   {
     amount: 41,
@@ -17,7 +18,8 @@ export const transactions = [
     balance: 53.34,
     date: "2018-09-19T00:00:00.000Z",
     description: "",
-    id: "Bo-wOq8"
+    id: "Bo-wOq8",
+    tags: ["green", "green::lime"]
   },
   {
     amount: -13.34,
@@ -139,12 +141,12 @@ export const transactions2 = [
 export const TRANSACTIONS = transactions.map(t => ({
   ...t,
   date: new Date(t.date),
-  tags: []
+  tags: t.tags || []
 }));
 export const TRANSACTIONS2 = transactions2.map(t => ({
   ...t,
   date: new Date(t.date),
-  tags: []
+  tags: t.tags || []
 }));
 
 export const ACCOUNTS = [
@@ -153,8 +155,14 @@ export const ACCOUNTS = [
     id: ACCOUNT_ID_1,
     color: "#0a0",
     display: true,
+    loaded: true,
     selected: true,
-    tags: [],
+    tags: [
+      { id: "red", label: "red", color: "#e74c3c" },
+      { id: "yellow", label: "yellow", color: "#fef160" },
+      { id: "green", label: "green", color: "#9acd32" },
+      { id: "green::lime", label: "green::lime", color: "#98fb98" }
+    ],
     transactions: TRANSACTIONS
   },
   {
@@ -162,6 +170,7 @@ export const ACCOUNTS = [
     id: ACCOUNT_ID_2,
     color: "#00a",
     display: true,
+    loaded: true,
     selected: false,
     tags: [],
     transactions: TRANSACTIONS2
