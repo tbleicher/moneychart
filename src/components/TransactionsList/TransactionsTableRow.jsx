@@ -1,30 +1,22 @@
 import React from "react";
 import PropTypes from "prop-types";
+
 import { DropTarget } from "react-dnd";
 
 import { TAGDND } from "../../reducers/Tags";
 
-//import './TransactionRow.css';
-
 const dropTarget = {
-  hover(props, monitor, component) {
-    //console.log('hover:', props.data.id)
-  },
+  // hover(props, monitor, component) {
+  //   console.log("hover:", props.dropId);
+  // },
   drop(props, monitor, component) {
-    console.log("drop", props, monitor, component);
-
+    const { dropId, tags, updateTransaction } = props;
     const item = monitor.getItem();
-    const data = component.props.data;
 
-    const dataTags = data.tags || [];
-    console.log("old tags", dataTags);
+    if (!tags.includes(item.label)) {
+      const _tags = [...tags, item.label];
 
-    if (!dataTags.includes(item.label)) {
-      // const tags = mergeTags(dataTags, item.label);
-      // props.updateTransaction({ id: data.id, tags });
-      // console.log("new tags", tags);
-
-      return { id: data.id, label: item.label };
+      updateTransaction({ id: dropId, tags: _tags });
     }
   }
 };
@@ -48,22 +40,44 @@ function collect(connect, monitor) {
   };
 }
 
-const CustomRow = ({
+const TransactionsTableRow = ({
   children,
   className,
+  dropId,
   isOver,
   connectDropTarget,
+  style,
+  tags,
+  updateTransaction,
   ...rest
 }) => {
-  const _className = className ? `rt-tr-group ${className}` : "rt-tr-group";
+  const _className = className ? `rt-tr ${className}` : "rt-tr";
 
-  console.log("rest", rest);
+  // define background color based on drag-hover and selected state
+  const bg = isOver ? { backgroundColor: "#ffd" } : {};
+  const _style = style ? { ...style, ...bg } : { ...bg };
+
   return connectDropTarget(
-    <div className={_className} role="rowgroup" {...rest}>
+    <div className={_className} role="row" {...rest} style={_style}>
       {children}
     </div>
   );
 };
 
-// export default CustomRow;
-export default DropTarget(TAGDND, dropTarget, collect)(CustomRow);
+TransactionsTableRow.propTypes = {
+  className: PropTypes.string,
+  dropId: PropTypes.string,
+  isOver: PropTypes.bool,
+  connectDropTarget: PropTypes.func.isRequired,
+  style: PropTypes.object.isRequired,
+  tags: PropTypes.array.isRequired,
+  updateTransaction: PropTypes.func
+};
+
+TransactionsTableRow.defaultProps = {
+  style: {},
+  tags: []
+};
+
+// export default TransactionsTableRow;
+export default DropTarget(TAGDND, dropTarget, collect)(TransactionsTableRow);

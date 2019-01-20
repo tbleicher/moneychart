@@ -11,19 +11,20 @@ const tagSource = {
     // Return the data describing the dragged item
     const item = { label: props.data.label };
     return item;
-  },
-
-  endDrag(props, monitor, component) {
-    // When dropped on a compatible target, do something
-    //const item = monitor.getItem();
-    // dropResult is object returned from drop() function of DragTarget
-    const dropResult = monitor.getDropResult();
-    if (dropResult && dropResult.id) {
-      console.log(`addedTag ${dropResult.label} to ${dropResult.id}`);
-
-      // TODO: save transactions?
-    }
   }
+
+  // endDrag(props, monitor, component) {
+  //   // When dropped on a compatible target, do something
+  //   //const item = monitor.getItem();
+
+  //   // dropResult is object returned from drop() function
+  //   // of DragTarget; unused since the action is initiated by
+  //   // the drop target (row)
+  //   const dropResult = monitor.getDropResult();
+  //   if (dropResult && dropResult.id) {
+  //     // do something with result
+  //   }
+  // }
 };
 
 function collect(connect, monitor) {

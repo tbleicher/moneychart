@@ -19,6 +19,7 @@ const dropTarget = {
 
     const dataTags = data.tags || [];
     console.log("old tags", dataTags);
+
     if (!dataTags.includes(item.label)) {
       const tags = mergeTags(dataTags, item.label);
       props.updateTransaction({ id: data.id, tags });

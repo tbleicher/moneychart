@@ -17,6 +17,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     onClick: id => dispatch(selectTransaction(id)),
+    selectTransaction: id => dispatch(selectTransaction(id)),
     updateTransaction: t => dispatch(updateTransaction(t))
   };
 }

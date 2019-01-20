@@ -1,57 +1,71 @@
-.pure-table {
-  border-collapse: collapse;
-  display: table;
-  border-spacing: 0;
-  empty-cells: show;
-  border: 1px solid #cbcbcb;
-  width: 100%;
+.ReactTable .rt-thead .rt-th.-cursor-pointer,
+.ReactTable .rt-thead .rt-td.-cursor-pointer {
+    box-shadow: none;
+    outline: none;
+    background-color: #eee;
 }
-.pure-table td,
-.pure-table th {
-  padding: 0.5em;
-  border: 1px solid #cbcbcb;
+
+.ReactTable .rt-thead.-header {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: none;
 }
-.pure-table th {
-  font-weight: 600;
+
+.ReactTable .-pagination {
+    box-shadow: none;
+    background-color: #eee;
+    border-top: none;
+    padding-top: 4px;
 }
-.pure-table th {
-  border-right: 1px solid white;
+
+.ReactTable .-pagination .-btn {
+    background: none;
+    font-weight: bold;
 }
-.pure-table th:last-child {
-  border-right: 1px solid #cbcbcb;
+
+.ReactTable .-pagination .-btn:not([disabled]):hover {
+    background: none;
+    color: inherit;
+    text-decoration: underline;
 }
-.tablewrapper {
-  /* margin-right: 30px; */
+
+.ReactTable .-pagination select {
+    background: none;
+    border: none;
 }
-#transactionstable {
-  width: 100%;
+
+.ReactTable .rt-thead .rt-th {
+    padding: 13px 10px 7px;
 }
-#transactionstable thead {
-  background-color: #cbcbcb;
+
+.ReactTable .rt-td {
+    padding: 10px;
 }
-#transactionstable tr:nth-child(even) {
-  background-color: #eee;
+
+.rt-resizable-header {
+    align-items: center;
+    font-weight: bold;
 }
-#transactionstable td:nth-child(1),
-#date {
-  width: 100px;
+
+.rt-resizable-header-content {
+    display: inline-block;
 }
-#transactionstable td:nth-child(2) {
-  max-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+
+.rt-th .-sort-desc {
+    box-shadow: none;
 }
-#transactionstable td:nth-child(3),
-#credit {
-  width: 70px;
-  text-align: right;
+
+.rt-th .-sort-asc {
+    box-shadow: none;
 }
-#transactionstable td:nth-child(4),
-#debit {
-  width: 70px;
-  text-align: right;
+
+.-sort-desc:after {
+    content: " \25BC";
+    position: relative;
+    top: -3px;
 }
-#transactionstable td:nth-child(5) {
-  width: 160px;
+
+.-sort-asc:after {
+    content: " \25B2";
+    position: relative;
+    top: -4px;
 }
